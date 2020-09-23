@@ -41,10 +41,6 @@ Install Elasticsearch 7.1.  If you use Docker instructions are available here: [
 1. Setup Run and Debug configurations. The command line run command is `./gradlew bootRun`
 1. Swagger ui at [http://localhost:8080/v3/swagger-ui.html](http://localhost:8080/v3/swagger-ui.html)
 
-## Running tests
-
-See README in /example
-
 ## Built With
 
 * [Spring](https://spring.io)
