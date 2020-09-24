@@ -7,7 +7,7 @@ This is the reference implementation for MMS. For the source code, please head t
 ### Docker
 Installation instructions are found here: [Docker documentation](https://docs.docker.com/)
 
-1. Copy the example properties file in `example/src/main/resources/` as `application.properties`
+1. Copy the example properties file in `src/main/resources/` as `application.properties`
 1. In the command line, run `docker-compose up --build` to create and start all the services from the configuration. 
 1. Swagger ui at [http://localhost:8080/v3/swagger-ui.html](http://localhost:8080/v3/swagger-ui.html)
 1. Use the command `docker-compose down` to stop any containers from running and to remove the containers, networks, and images created by the `docker-compose up` command. This command should always be done before any new attempts to restart the services from the configuration. 

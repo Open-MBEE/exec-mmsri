@@ -27,6 +27,11 @@ import org.springframework.context.annotation.Bean;
     scheme = "bearer",
     bearerFormat = "JWT"
 )
+@SecurityScheme(
+        name = "basicAuth",
+        type = SecuritySchemeType.HTTP,
+        scheme = "basic"
+)
 public class MMSRIApplication {
 
     public static void main(String[] args) {
