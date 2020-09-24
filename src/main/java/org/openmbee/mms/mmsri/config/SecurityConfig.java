@@ -1,23 +1,9 @@
 package org.openmbee.mms.mmsri.config;
 
-import static org.springframework.http.HttpHeaders.ACCEPT;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpHeaders.ORIGIN;
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.OPTIONS;
-import static org.springframework.http.HttpMethod.PATCH;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openmbee.sdvc.authenticator.config.AuthSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,24 +22,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 @Configuration
-@PropertySource("classpath:application.properties")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableTransactionManagement
 @EnableAsync
-public class ExampleSecurityConfig extends WebSecurityConfigurerAdapter implements
+public class SecurityConfig extends WebSecurityConfigurerAdapter implements
     WebMvcConfigurer {
-
-    private static Logger logger = LogManager.getLogger(ExampleSecurityConfig.class);
 
     @Autowired
     AuthSecurityConfig authSecurityConfig;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        //permit all for anonymous access for public projects
         http.csrf().disable().authorizeRequests().anyRequest().permitAll().and().httpBasic();
         http.headers().cacheControl();
-        http.addFilterAfter(corsFilter(), ExceptionTranslationFilter.class);
+        //filter only needed if not permitAll
+        //http.addFilterAfter(corsFilter(), ExceptionTranslationFilter.class);
         authSecurityConfig.setAuthConfig(http);
     }
 
@@ -72,30 +57,20 @@ public class ExampleSecurityConfig extends WebSecurityConfigurerAdapter implemen
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE");
+        registry.addMapping("/**")
+                .allowedMethods("*")
+                .allowCredentials(true)
+                .maxAge(3600L)
+                .allowedOrigins("*");
     }
 
     private CorsFilter corsFilter() {
-        /*
-         CORS requests are managed only if headers Origin and Access-Control-Request-Method are available on OPTIONS requests
-         (this filter is simply ignored in other cases).
-         This filter can be used as a replacement for the @Cors annotation.
-        */
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
-        config.addAllowedHeader(ORIGIN);
-        config.addAllowedHeader(CONTENT_TYPE);
-        config.addAllowedHeader(ACCEPT);
-        config.addAllowedHeader(AUTHORIZATION);
-        config.addAllowedMethod(GET);
-        config.addAllowedMethod(PUT);
-        config.addAllowedMethod(POST);
-        config.addAllowedMethod(OPTIONS);
-        config.addAllowedMethod(DELETE);
-        config.addAllowedMethod(PATCH);
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
         config.setMaxAge(3600L);
 
         source.registerCorsConfiguration("/**", config);

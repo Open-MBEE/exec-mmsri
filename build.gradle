@@ -19,6 +19,9 @@ plugins {
 }
 
 repositories {
+    maven {
+        url  "https://dl.bintray.com/openmbee/maven"
+    }
     mavenCentral()
 }
 
