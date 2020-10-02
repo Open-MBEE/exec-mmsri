@@ -35,7 +35,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
     @Override
     public void configure(HttpSecurity http) throws Exception {
         //permit all for anonymous access for public projects
-        http.csrf().disable().authorizeRequests().anyRequest().permitAll().and().httpBasic();
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/actuator/health/**").permitAll()
+                .antMatchers("/actuator/**").hasAuthority("mmsadmin")
+                .anyRequest().permitAll().and().httpBasic();
         http.headers().cacheControl();
         //filter only needed if not permitAll
         //http.addFilterAfter(corsFilter(), ExceptionTranslationFilter.class);
