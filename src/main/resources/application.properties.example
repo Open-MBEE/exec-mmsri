@@ -71,3 +71,7 @@ logbook.filter.form-request-mode=off
 logbook.exclude=/v3/**,/actuator/**
 
 management.endpoints.web.exposure.include=*
+management.endpoints.web.exposure.exclude=configprops,env
+management.endpoint.health.show-details=when_authorized
+management.endpoint.health.roles=mmsadmin
+#https://www.baeldung.com/spring-boot-health-indicators
