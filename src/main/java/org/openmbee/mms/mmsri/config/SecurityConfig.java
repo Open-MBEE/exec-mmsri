@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,17 +33,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
     @Autowired
     AuthSecurityConfig authSecurityConfig;
 
+    @Autowired
+    WebAuthenticationDetailsSource detailsSource;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         //permit all for anonymous access for public projects
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/actuator/health/**").permitAll()
                 .antMatchers("/actuator/**").hasAuthority("mmsadmin")
-                .anyRequest().permitAll().and().httpBasic();
+                .anyRequest().permitAll().and().httpBasic().authenticationDetailsSource(detailsSource);
         http.headers().cacheControl();
         //filter only needed if not permitAll
         //http.addFilterAfter(corsFilter(), ExceptionTranslationFilter.class);
         authSecurityConfig.setAuthConfig(http);
+
     }
 
     @Bean
