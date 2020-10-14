@@ -1,11 +1,11 @@
-# See authenticator module for org.openmbee.mms.example configuration
+# Auth config
 sdvc.admin.username=test
 sdvc.admin.password=test
 jwt.secret=make_me_something_really_long
 jwt.expiration=86400
 jwt.header=Authorization
 
-# See ldap module for org.openmbee.mms.example configuration
+# LDAP config
 ldap.provider.base=ou=personnel,dc=dir,dc=domain,dc=com
 ldap.provider.url=ldaps://your-ldap.domain.com/${ldap.provider.base}
 ldap.provider.userdn=
@@ -17,7 +17,7 @@ ldap.group.role.attribute=cn
 ldap.group.search.base=ou=personnel,dc=dir,dc=domain,dc=com
 ldap.group.search.filter=(&(objectClass=group)(uniqueMember={0}))
 
-# See core module for org.openmbee.mms.example configuration
+# RDB config
 spring.datasource.url=jdbc:postgresql://localhost:5432
 #spring.datasource.url=jdbc:mysql://localhost:3306
 spring.datasource.database=mms
@@ -38,7 +38,7 @@ spring.jpa.open-in-view=false
 
 spring.main.allow-bean-definition-overriding=true
 
-#Configuration for Elasticsearch
+# Elasticsearch config
 elasticsearch.host=localhost
 elasticsearch.port=9200
 elasticsearch.http=http
@@ -57,21 +57,24 @@ twc.instances[0].port=8111
 twc.instances[0].aliases[0]=dev-twc-02.domain.com
 twc.instances[0].aliases[1]=dev-twc-01.domain.com
 
+# Swagger UI config https://springdoc.org/
 springdoc.swagger-ui.path=/v3/swagger-ui.html
-#For sorting endpoints alphabetically
 springdoc.swagger-ui.operationsSorter=alpha
-#For sorting tags alphabetically
 springdoc.swagger-ui.tagsSorter=alpha
 springdoc.default-produces-media-type=application/json
 springdoc.swagger-ui.displayOperationId=true
 
+# Logbook config https://github.com/zalando/logbook
 logging.level.org.zalando.logbook=TRACE
 logbook.filter.form-request-mode=off
 #exclude swagger ui and actuator
 logbook.exclude=/v3/**,/actuator/**
+#logbook.write.max-body-size=-1
+#logbook.format.style=splunk #http, json, curl
 
+# https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html
+# https://www.baeldung.com/spring-boot-health-indicators
 management.endpoints.web.exposure.include=*
 #management.endpoints.web.exposure.exclude=configprops,env
 management.endpoint.health.show-details=when_authorized
 management.endpoint.health.roles=mmsadmin
-#https://www.baeldung.com/spring-boot-health-indicators
