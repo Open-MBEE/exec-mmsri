@@ -36,7 +36,7 @@ dependencies {
             "org.openmbee.mms:permissions:${mmsVersion}",
             "org.openmbee.mms:webhooks:${mmsVersion}",
             "org.openmbee.mms:search:${mmsVersion}",
-            "org.openmbee.mms:artifacts:${mmsVersion}",
+            "org.openmbee.mms:storage:${mmsVersion}",
             "org.springframework.boot:spring-boot-starter-web",
             'org.springframework.boot:spring-boot-starter-actuator',
             "org.postgresql:postgresql:42.2.5",

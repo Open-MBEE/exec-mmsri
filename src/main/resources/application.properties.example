@@ -57,6 +57,12 @@ twc.instances[0].port=8111
 twc.instances[0].aliases[0]=dev-twc-02.domain.com
 twc.instances[0].aliases[1]=dev-twc-01.domain.com
 
+# s3 storage config
+s3.endpoint=http://localhost:9000
+s3.access_key=admintest
+s3.secret_key=admintest
+s3.region=somewhere
+
 # Swagger UI config https://springdoc.org/
 springdoc.swagger-ui.path=/v3/swagger-ui.html
 springdoc.swagger-ui.operationsSorter=alpha
