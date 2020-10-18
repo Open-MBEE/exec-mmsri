@@ -48,7 +48,7 @@ elasticsearch.limit.result=10000
 elasticsearch.limit.term=1000
 elasticsearch.limit.scrollTimeout=1000
 
-#Configuration for TWC
+# TWC config
 #port is for REST interface
 #aliases are for clustered usages
 twc.instances[0].url=dev-twc-03.domain.com
@@ -76,7 +76,8 @@ logbook.filter.form-request-mode=off
 #exclude swagger ui and actuator
 logbook.exclude=/v3/**,/actuator/**
 #logbook.write.max-body-size=-1
-#logbook.format.style=splunk #http, json, curl
+#splunk|http|json|curl
+logbook.format.style=splunk
 
 # https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html
 # https://www.baeldung.com/spring-boot-health-indicators
