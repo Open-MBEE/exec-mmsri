@@ -7,12 +7,12 @@ This is the reference implementation for MMS. For the source code, please head t
 ### Docker
 Installation instructions are found here: [Docker documentation](https://docs.docker.com/)
 
-1. Copy the example properties file in `src/main/resources/` as `application.properties`
+1. Copy the `application.properties.example` file in `src/main/resources/` as `application.properties`
 1. In the command line, run `docker-compose up --build` to create and start all the services from the configuration. 
 1. Swagger ui at [http://localhost:8080/v3/swagger-ui.html](http://localhost:8080/v3/swagger-ui.html)
 1. Use the command `docker-compose down` to stop any containers from running and to remove the containers, networks, and images created by the `docker-compose up` command. This command should always be done before any new attempts to restart the services from the configuration. 
 
-## Developer Setup for example project
+## Developer Setup
 ### Docker 
 We suggest using Docker to set up PostgreSQL and Elasticsearch.  Installation 
 instructions are found here: [Docker documentation](https://docs.docker.com/)
@@ -35,8 +35,13 @@ Install Elasticsearch 7.1.  If you use Docker instructions are available here: [
 
     docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.1.1
 
+### Artifact Storage
+Use MinIO for an open sourced local s3 api compatible storage
+
+    docker run -p 9000:9000 -e "MINIO_ACCESS_KEY=admintest" -e "MINIO_SECRET_KEY=admintest" minio/minio server /data
+    
 ### The Application:
-1. Copy the example properties file in `src/main/resources/` as `application.properties`
+1. Copy the `application.properties.example` file in `src/main/resources/` as `application.properties`
 1. Change values for all the appropriate properties. The example file holds sane values for most properties.
 1. Setup Run and Debug configurations. The command line run command is `./gradlew bootRun`
 1. Swagger ui at [http://localhost:8080/v3/swagger-ui.html](http://localhost:8080/v3/swagger-ui.html)
@@ -59,8 +64,5 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details
 
-## Structure of Modules 
-
-TBA
 
 
