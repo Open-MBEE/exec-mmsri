@@ -12,6 +12,13 @@ Installation instructions are found here: [Docker documentation](https://docs.do
 1. Swagger ui at [http://localhost:8080/v3/swagger-ui.html](http://localhost:8080/v3/swagger-ui.html)
 1. Use the command `docker-compose down` to stop any containers from running and to remove the containers, networks, and images created by the `docker-compose up` command. This command should always be done before any new attempts to restart the services from the configuration. 
 
+Note the compose file is running the application with the `test` profile, with the config from `src/main/resources/application-test.properties`
+
+This implementation brings in Spring Actuator and Logbook for monitoring and logging features - see [Logbook](https://github.com/zalando/logbook) and [Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) for more info. The `application.properties.example` file has the suggested configs.
+
+## Using externalized configs
+There are a variety of options to override the packaged config depending on the deployment scenario. See [Config locations](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config) for the list of options. Usually using profiles or environment variables are a good way to specify different configs for different environments.
+
 ## Developer Setup
 ### Docker 
 We suggest using Docker to set up PostgreSQL and Elasticsearch.  Installation 
@@ -21,9 +28,9 @@ instructions are found here: [Docker documentation](https://docs.docker.com/)
 Installation instructions: [JDK-11 download](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 
 ### Postgresql
-Install postgres (PostgreSQL) 9.6, instructions for Docker: [PostgreSQL with Docker](https://hub.docker.com/_/postgres)
+Install postgres (PostgreSQL) 11, instructions for Docker: [PostgreSQL with Docker](https://hub.docker.com/_/postgres)
 
-    docker run -d -e POSTGRES_PASSWORD=test1234 -e POSTGRES_USER=mmsuser -e POSTGRES_DB=mms -p 5432:5432 postgres:9-alpine
+    docker run -d -e POSTGRES_PASSWORD=test1234 -e POSTGRES_USER=mmsuser -e POSTGRES_DB=mms -p 5432:5432 postgres:11-alpine
     
 ### or Mysql
 5.7 [Mysql Docker](https://hub.docker.com/_/mysql/)
@@ -31,9 +38,9 @@ Install postgres (PostgreSQL) 9.6, instructions for Docker: [PostgreSQL with Doc
     docker run -d -e MYSQL_ROOT_PASSWORD=test1234 -e MYSQL_DATABASE=mms -p 3306:3306 mysql:5.7
 
 ### Elasticsearch
-Install Elasticsearch 7.1.  If you use Docker instructions are available here: [Setting up Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
+Install Elasticsearch 7.8.  If you use Docker instructions are available here: [Setting up Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
 
-    docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.1.1
+    docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.8.1
 
 ### Artifact Storage
 Use MinIO for an open sourced local s3 api compatible storage

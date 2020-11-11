@@ -8,12 +8,16 @@ jwt.header=Authorization
 # LDAP config
 ldap.provider.base=ou=personnel,dc=dir,dc=domain,dc=com
 ldap.provider.url=ldaps://your-ldap.domain.com/${ldap.provider.base}
+# user and pass to connect to ldap, can be empty if ldap server allows anonymous searches
 ldap.provider.userdn=
 ldap.provider.password=
+# ldap user dn pattern, {0} will be replaced with username
 ldap.user.dn.pattern=uid={0}
 ldap.user.attributes.username=uid
 ldap.user.attributes.email=mail
+# attribute name of the group name
 ldap.group.role.attribute=cn
+# to find groups a user belongs to - search base and ldap search filter
 ldap.group.search.base=ou=personnel,dc=dir,dc=domain,dc=com
 ldap.group.search.filter=(&(objectClass=group)(uniqueMember={0}))
 
@@ -28,7 +32,7 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 spring.datasource.initialization-mode=never
 
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL94Dialect
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL10Dialect
 #spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
 #spring.jpa.properties.hibernate.dialect.storage_engine=innodb
 # Hibernate ddl auto (create, create-drop, validate, update)
