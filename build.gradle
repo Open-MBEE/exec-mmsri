@@ -81,7 +81,7 @@ configurations {
         it.outgoing.artifact(bootJar)
     }
 }
-
+/*
 artifactory {
     contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
     resolve {
@@ -94,3 +94,4 @@ artifactory {
         }
     }
 }
+*/
