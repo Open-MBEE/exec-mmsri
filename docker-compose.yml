@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:9-alpine
+    image: postgres:11-alpine
     environment:
       - POSTGRES_PASSWORD=test1234
       - POSTGRES_USER=mmsuser
@@ -11,12 +11,21 @@ services:
       - 5432:5432
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.1
     environment:
       - "discovery.type=single-node"
     ports:
       - 9200:9200
       - 9300:9300
+
+  minio:
+    image: minio/minio:latest
+    environment:
+      - "MINIO_ACCESS_KEY=admintest"
+      - "MINIO_SECRET_KEY=admintest"
+    command: server /tmp/data
+    ports:
+      - 9000:9000
 
   mms:
     build: .
