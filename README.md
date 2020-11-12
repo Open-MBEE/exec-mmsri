@@ -12,9 +12,11 @@ Installation instructions are found here: [Docker documentation](https://docs.do
 1. Swagger ui at [http://localhost:8080/v3/swagger-ui.html](http://localhost:8080/v3/swagger-ui.html)
 1. Use the command `docker-compose down` to stop any containers from running and to remove the containers, networks, and images created by the `docker-compose up` command. This command should always be done before any new attempts to restart the services from the configuration. 
 
-Note the compose file is running the application with the `test` profile, with the config from `src/main/resources/application-test.properties`
+Note the docker compose file is running the application with the `test` profile, with the config from `src/main/resources/application-test.properties`
 
-This implementation brings in Spring Actuator and Logbook for monitoring and logging features - see [Logbook](https://github.com/zalando/logbook) and [Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) for more info. The `application.properties.example` file has the suggested configs.
+This implementation brings in Spring Actuator and Logbook for monitoring and logging features - see [Logbook](https://github.com/zalando/logbook) and [Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html) for more info. 
+
+The `application.properties.example` file has the suggested configs and comments. [example](https://github.com/Open-MBEE/mmsri/blob/develop/src/main/resources/application.properties.example)
 
 ## Using externalized configs
 There are a variety of options to override the packaged config depending on the deployment scenario. See [Config locations](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config) for the list of options. Usually using profiles or environment variables are a good way to specify different configs for different environments.

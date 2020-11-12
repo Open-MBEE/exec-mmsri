@@ -1,6 +1,9 @@
 # Auth config
+# local admin user will get created if doesn't exist
 sdvc.admin.username=test
 sdvc.admin.password=test
+
+# jwt issued by mms for logins via /authentication
 jwt.secret=make_me_something_really_long
 jwt.expiration=86400
 jwt.header=Authorization
@@ -22,6 +25,7 @@ ldap.group.search.base=ou=personnel,dc=dir,dc=domain,dc=com
 ldap.group.search.filter=(&(objectClass=group)(uniqueMember={0}))
 
 # RDB config
+# if using mysql instead of postgres, comment and uncomment the corresponding properties
 spring.datasource.url=jdbc:postgresql://localhost:5432
 #spring.datasource.url=jdbc:mysql://localhost:3306
 spring.datasource.database=mms
@@ -31,7 +35,11 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 #spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 spring.datasource.initialization-mode=never
 
+# specifies a prefix for the mms created project db
+rdb.project.prefix=mms
+
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
+# comment and uncomment postgres/mysql as needed
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL10Dialect
 #spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
 #spring.jpa.properties.hibernate.dialect.storage_engine=innodb
@@ -46,26 +54,17 @@ spring.main.allow-bean-definition-overriding=true
 elasticsearch.host=localhost
 elasticsearch.port=9200
 elasticsearch.http=http
-elasticsearch.index.element=mms
-elasticsearch.limit.insert=80
 elasticsearch.limit.result=10000
 elasticsearch.limit.term=1000
 elasticsearch.limit.scrollTimeout=1000
 
-# TWC config
-#port is for REST interface
-#aliases are for clustered usages
-twc.instances[0].url=dev-twc-03.domain.com
-twc.instances[0].protocol=https
-twc.instances[0].port=8111
-twc.instances[0].aliases[0]=dev-twc-02.domain.com
-twc.instances[0].aliases[1]=dev-twc-01.domain.com
-
-# s3 storage config
+# s3 storage config for artifacts
 s3.endpoint=http://localhost:9000
 s3.access_key=admintest
 s3.secret_key=admintest
 s3.region=somewhere
+# optional if using minio
+s3.bucket=mms
 
 # Swagger UI config https://springdoc.org/
 springdoc.swagger-ui.path=/v3/swagger-ui.html
@@ -77,14 +76,15 @@ springdoc.swagger-ui.displayOperationId=true
 # Logbook config https://github.com/zalando/logbook
 logging.level.org.zalando.logbook=TRACE
 logbook.filter.form-request-mode=off
-#exclude swagger ui and actuator
+# exclude swagger ui and actuator
 logbook.exclude=/v3/**,/actuator/**
 #logbook.write.max-body-size=-1
-#splunk|http|json|curl
+# style can be splunk|http|json|curl
 logbook.format.style=splunk
 
 # https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html
 # https://www.baeldung.com/spring-boot-health-indicators
+# currently all /actuator/* endpoints require 'mmsadmin' authority, except for /actuator/health
 management.endpoints.web.exposure.include=*
 #management.endpoints.web.exposure.exclude=configprops,env
 management.endpoint.health.show-details=when_authorized

@@ -1,6 +1,6 @@
 package org.openmbee.mms.mmsri.config;
 
-import org.openmbee.sdvc.authenticator.config.AuthSecurityConfig;
+import org.openmbee.mms.authenticator.config.AuthSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
