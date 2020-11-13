@@ -7,6 +7,11 @@ This is the reference implementation for MMS. For the source code, please head t
 ### Docker
 Installation instructions are found here: [Docker documentation](https://docs.docker.com/)
 
+#### Option 1: Get from dockerhub
+
+Use tag 4.x from [Dockerhub](https://hub.docker.com/repository/docker/openmbee/mms/general)
+
+#### Option 2: Build from repo
 1. Copy the `application.properties.example` file in `src/main/resources/` as `application.properties`
 1. In the command line, run `docker-compose up --build` to create and start all the services from the configuration. 
 1. Swagger ui at [http://localhost:8080/v3/swagger-ui.html](http://localhost:8080/v3/swagger-ui.html)
