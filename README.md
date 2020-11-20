@@ -4,6 +4,9 @@
 This is the reference implementation for MMS. For the source code, please head to [https://github.com/Open-MBEE/mms](https://github.com/Open-MBEE/mms). For more information about Open-MBEE, visit the [Open-MBEE Website](https://openmbee.org/).
 
 ## Quick Start
+
+Note this quick start is for getting a test instance up and is not recommended for production use. Different configs will be required for different deployment scenarios, environments and workloads (ex. elasticsearch should be a cluster instead of single node, different memory allocations, etc)
+ 
 ### Docker
 Installation instructions are found here: [Docker documentation](https://docs.docker.com/)
 
