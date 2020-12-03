@@ -1299,6 +1299,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrganizationsResponse'
+  /mmsversion:
+    get:
+      tags:
+        - MMSVersion
+      operationId: getMMSVersion
+      responses:
+        "200":
+          description: default response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mmsVersion:
+                    type: string
 components:
   schemas:
     JwtAuthenticationResponse:
