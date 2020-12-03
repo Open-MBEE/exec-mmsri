@@ -4,9 +4,17 @@
 This is the reference implementation for MMS. For the source code, please head to [https://github.com/Open-MBEE/mms](https://github.com/Open-MBEE/mms). For more information about Open-MBEE, visit the [Open-MBEE Website](https://openmbee.org/).
 
 ## Quick Start
+
+Note this quick start is for getting a test instance up and is not recommended for production use. Different configs will be required for different deployment scenarios, environments and workloads (ex. elasticsearch should be a cluster instead of single node, different memory allocations, etc)
+ 
 ### Docker
 Installation instructions are found here: [Docker documentation](https://docs.docker.com/)
 
+#### Option 1: Get from dockerhub
+
+Use tag 4.x from [Dockerhub](https://hub.docker.com/repository/docker/openmbee/mms/general)
+
+#### Option 2: Build from repo
 1. Copy the `application.properties.example` file in `src/main/resources/` as `application.properties`
 1. In the command line, run `docker-compose up --build` to create and start all the services from the configuration. 
 1. Swagger ui at [http://localhost:8080/v3/swagger-ui.html](http://localhost:8080/v3/swagger-ui.html)

@@ -74,6 +74,10 @@ swaggerSources {
     }
 }
 
+springBoot {
+    buildInfo()
+}
+
 //https://stackoverflow.com/questions/61197984/bootjar-mavenjar-artifact-wasnt-produced-by-this-build
 configurations {
     [apiElements, runtimeElements].each {
