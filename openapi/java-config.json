@@ -1,7 +1,7 @@
 {
     "groupId": "org.openmbee.mms",
     "artifactId": "mms-java-client",
-    "artifactVersion": "4.0.0-B2",
+    "artifactVersion": "4.0.0-B3",
     "artifactUrl": "https://github.com/Open-MBEE/mms",
     "artifactDescription": "Java OpenAPI Client for MMS",
     "library": "jersey2",
