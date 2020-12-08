@@ -47,7 +47,7 @@ dependencies {
     testImplementation(
             'org.springframework.boot:spring-boot-starter-test'
     )
-    swaggerCodegen 'org.openapitools:openapi-generator-cli:4.3.0'
+    swaggerCodegen 'org.openapitools:openapi-generator-cli:4.3.1'
 }
 
 swaggerSources {
@@ -76,6 +76,10 @@ swaggerSources {
 
 springBoot {
     buildInfo()
+}
+
+bootJar {
+    layered()
 }
 
 //https://stackoverflow.com/questions/61197984/bootjar-mavenjar-artifact-wasnt-produced-by-this-build
