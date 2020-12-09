@@ -1,10 +1,7 @@
 package org.openmbee.mms.mmsri.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.openmbee.mms.core.exceptions.BadRequestException;
-import org.openmbee.mms.core.objects.ElementsRequest;
-import org.openmbee.mms.core.objects.ElementsResponse;
-import org.openmbee.mms.core.services.NodeService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.openmbee.mms.crud.controllers.BaseController;
 import org.openmbee.mms.mmsri.services.TestNodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestController
@@ -49,15 +48,20 @@ public class StreamTestController extends BaseController  {
             HttpServletRequest request,
             @PathVariable String projectId,
             @PathVariable String refId,
-            @RequestBody ElementsRequest req,
             @RequestParam(required = false) String overwrite,
             @RequestParam(required = false) Map<String, String> params,
             Authentication auth) {
 
-        ElementsResponse response = new ElementsResponse();
-        if (!req.getElements().isEmpty()) {
-            return testNodeService.createOrUpdateFromStream(projectId, refId, req, params, auth.getName());
+        String tmpFile = auth.getName() + "_" + projectId + "_" + refId + "_" + LocalDateTime.now() + ".json";
+
+        try {
+            File targetFile = new File(tmpFile);
+            Files.copy(request.getInputStream(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            IOUtils.closeQuietly(request.getInputStream());
+        } catch (IOException ioe) {
+            logger.error("Error saving request to temporary file: ", ioe);
         }
-        throw new BadRequestException(response.addMessage("Empty"));
+
+        return testNodeService.createOrUpdateFromStream(projectId, refId, tmpFile, params, auth.getName());
     }
 }

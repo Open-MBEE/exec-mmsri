@@ -1,9 +1,8 @@
 package org.openmbee.mms.mmsri.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openmbee.mms.core.config.ContextHolder;
-import org.openmbee.mms.core.objects.ElementsRequest;
 import org.openmbee.mms.core.services.NodeService;
 import org.openmbee.mms.crud.services.DefaultNodeService;
 import org.openmbee.mms.json.ElementJson;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -39,7 +39,6 @@ public class TestNodeService extends DefaultNodeService implements NodeService {
                 try {
                     outputStream.write(nodeIndex.findAllById(Set.copyOf(ids)).stream().map(this::toJson).collect(Collectors.joining(",")).getBytes(StandardCharsets.UTF_8));
                 } catch (IOException ioe) {
-                    // Good luck
                     logger.error("Error writing to stream", ioe);
                 }
             });
@@ -48,8 +47,25 @@ public class TestNodeService extends DefaultNodeService implements NodeService {
         return new ResponseEntity(stream, HttpStatus.OK);
     }
 
-    public ResponseEntity<StreamingResponseBody> createOrUpdateFromStream(String projectId, String refId, ElementsRequest req, Map<String, String> params, String user) {
-        return null;
+    public ResponseEntity<StreamingResponseBody> createOrUpdateFromStream(String projectId, String refId, String tmpFile, Map<String, String> params, String user) {
+        StreamingResponseBody stream = outputStream -> {
+            try {
+                JsonFactory jfactory = new JsonFactory();
+                JsonParser jParser = jfactory.createParser(new File(tmpFile));
+                while (jParser.nextToken() != JsonToken.END_OBJECT) {
+                    if ("elements".equals(jParser.getCurrentName())) {
+                        jParser.nextToken();
+                        while (jParser.nextToken() != JsonToken.END_ARRAY) {
+                            ElementJson single = jParser.readValueAs(ElementJson.class);
+                            logger.error(single.toString());
+                        }
+                    }
+                }
+            } catch (IOException ioe) {
+                logger.error("Error reading temporary file: ", ioe);
+            }
+        };
+        return new ResponseEntity(stream, HttpStatus.OK);
     }
 
     public static <T> Stream<List<T>> batches(List<T> source, int length) {
