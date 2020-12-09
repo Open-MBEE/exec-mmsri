@@ -3,6 +3,7 @@ package org.openmbee.mms.mmsri.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openmbee.mms.core.config.ContextHolder;
+import org.openmbee.mms.core.objects.ElementsRequest;
 import org.openmbee.mms.core.services.NodeService;
 import org.openmbee.mms.crud.services.DefaultNodeService;
 import org.openmbee.mms.json.ElementJson;
@@ -45,6 +46,10 @@ public class TestNodeService extends DefaultNodeService implements NodeService {
             outputStream.write("]}".getBytes(StandardCharsets.UTF_8));
         };
         return new ResponseEntity(stream, HttpStatus.OK);
+    }
+
+    public ResponseEntity<StreamingResponseBody> createOrUpdateFromStream(String projectId, String refId, ElementsRequest req, Map<String, String> params, String user) {
+        return null;
     }
 
     public static <T> Stream<List<T>> batches(List<T> source, int length) {

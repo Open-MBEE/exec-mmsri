@@ -1,4 +1,4 @@
-FROM openjdk:11.0.8-jdk as build
+FROM openjdk:15.0.1-jdk-slim as build
 
 WORKDIR application
 COPY . .
@@ -6,8 +6,9 @@ RUN ./gradlew --no-daemon bootJar
 RUN cp build/libs/mms*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM openjdk:11.0.8-jdk
+FROM openjdk:15.0.1-jdk-slim
 WORKDIR application
+RUN apt-get update && apt-get install -y procps
 COPY --from=build application/dependencies/ ./
 COPY --from=build application/spring-boot-loader/ ./
 COPY --from=build application/snapshot-dependencies/ ./
