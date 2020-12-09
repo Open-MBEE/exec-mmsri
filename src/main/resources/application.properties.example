@@ -2,6 +2,7 @@
 # local admin user will get created if doesn't exist
 sdvc.admin.username=test
 sdvc.admin.password=test
+sdvc.stream.limit=100000
 
 # jwt issued by mms for logins via /authentication
 jwt.secret=make_me_something_really_long

@@ -26,6 +26,9 @@ repositories {
 }
 
 dependencies {
+    compile (
+            "org.openmbee.mms:crud:${mmsVersion}",
+    )
     implementation (
             "org.openmbee.mms:authenticator:${mmsVersion}",
             "org.openmbee.mms:localuser:${mmsVersion}",
