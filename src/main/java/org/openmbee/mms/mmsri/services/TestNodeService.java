@@ -5,6 +5,7 @@ import org.openmbee.mms.crud.services.DefaultNodeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
 import java.io.IOException;
@@ -14,10 +15,11 @@ import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+@Service("testNodeService")
 public class TestNodeService extends DefaultNodeService implements NodeService {
 
-    @Value("sdvc.stream.limit")
-    int streamLimit;
+    @Value("${sdvc.stream.limit}")
+    private Integer streamLimit;
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
