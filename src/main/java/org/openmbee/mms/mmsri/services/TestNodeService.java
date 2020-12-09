@@ -26,7 +26,6 @@ public class TestNodeService extends DefaultNodeService implements NodeService {
     private int streamLimit;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-
     public ResponseEntity<StreamingResponseBody> stream(String projectId, String refId, String req, Map<String, String> params) {
         StreamingResponseBody stream = outputStream -> {
             List<String> indexIds = new ArrayList<>();
