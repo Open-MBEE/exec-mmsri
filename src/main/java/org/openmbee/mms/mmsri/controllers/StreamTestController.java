@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.util.Map;
 
@@ -28,7 +28,7 @@ public class StreamTestController extends BaseController  {
 
     @GetMapping(produces = "application/x-ndjson")
     @PreAuthorize("@mss.hasBranchPrivilege(authentication, #projectId, #refId, 'BRANCH_READ', true)")
-    public ResponseEntity<ResponseBodyEmitter> getAllElements(
+    public ResponseEntity<StreamingResponseBody> getAllElements(
             @PathVariable String projectId,
             @PathVariable String refId,
             @RequestParam(required = false) String commitId,
