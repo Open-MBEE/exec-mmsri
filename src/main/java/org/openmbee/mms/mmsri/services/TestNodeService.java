@@ -1,5 +1,6 @@
 package org.openmbee.mms.mmsri.services;
 
+import org.openmbee.mms.core.config.ContextHolder;
 import org.openmbee.mms.core.services.NodeService;
 import org.openmbee.mms.crud.services.DefaultNodeService;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ import java.util.stream.Stream;
 public class TestNodeService extends DefaultNodeService implements NodeService {
 
     @Value("${sdvc.stream.limit}")
-    private Integer streamLimit;
+    private int streamLimit;
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -28,6 +29,7 @@ public class TestNodeService extends DefaultNodeService implements NodeService {
         executor.execute(() -> {
             try {
                 List<String> indexIds = new ArrayList<>();
+                ContextHolder.setContext(projectId, refId);
                 nodeRepository.findAllByDeleted(false).forEach(node -> {
                     indexIds.add(node.getDocId());
                 });
@@ -39,23 +41,16 @@ public class TestNodeService extends DefaultNodeService implements NodeService {
                         emitter.completeWithError(ioe);
                     }
                 });
-                emitter.complete();
             } catch (Exception ex) {
                 emitter.completeWithError(ex);
+            } finally {
+                emitter.complete();
             }
         });
         return new ResponseEntity(emitter, HttpStatus.OK);
     }
 
     public static <T> Stream<List<T>> batches(List<T> source, int length) {
-        if (length <= 0) {
-            throw new IllegalArgumentException("length = " + length);
-        }
-        int size = source.size();
-        if (size <= 0) {
-            return Stream.empty();
-        }
-        int fullChunks = (size - 1) / length;
-        return IntStream.range(0, fullChunks + 1).mapToObj(n -> source.subList(n * length, n == fullChunks ? size : (n + 1) * length));
+        return IntStream.iterate(0, i -> i < source.size(), i -> i + length).mapToObj(i -> source.subList(i, Math.min(i + length, source.size())));
     }
 }

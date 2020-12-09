@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.openmbee.mms.crud.controllers.BaseController;
 import org.openmbee.mms.mmsri.services.TestNodeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,7 @@ public class StreamTestController extends BaseController  {
         this.testNodeService = testNodeService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    @GetMapping(produces = "application/x-ndjson")
     @PreAuthorize("@mss.hasBranchPrivilege(authentication, #projectId, #refId, 'BRANCH_READ', true)")
     public ResponseEntity<ResponseBodyEmitter> getAllElements(
             @PathVariable String projectId,
