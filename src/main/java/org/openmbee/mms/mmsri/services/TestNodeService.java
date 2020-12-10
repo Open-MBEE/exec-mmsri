@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -35,8 +36,14 @@ public class TestNodeService extends DefaultNodeService implements NodeService {
                 indexIds.add(node.getDocId());
             });
             outputStream.write("{\"elements\":[".getBytes(StandardCharsets.UTF_8));
+            AtomicInteger counter = new AtomicInteger();
             batches(indexIds, streamLimit).forEach(ids -> {
                 try {
+                    if (counter.get() == 0) {
+                        counter.getAndIncrement();
+                    } else {
+                        outputStream.write(",".getBytes(StandardCharsets.UTF_8));
+                    }
                     outputStream.write(nodeIndex.findAllById(Set.copyOf(ids)).stream().map(this::toJson).collect(Collectors.joining(",")).getBytes(StandardCharsets.UTF_8));
                 } catch (IOException ioe) {
                     logger.error("Error writing to stream", ioe);
