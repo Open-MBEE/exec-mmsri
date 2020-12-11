@@ -29,6 +29,31 @@ public class TestNodeService extends DefaultNodeService implements NodeService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ResponseEntity<StreamingResponseBody> stream(String projectId, String refId, String req, Map<String, String> params) {
+        String commitId = params.getOrDefault("commitId", null);
+        if (commitId != null && !commitId.isEmpty()) {
+            StreamingResponseBody stream = outputStream -> {
+                ContextHolder.setContext(projectId, refId);
+                List<ElementJson> el = nodeRepository.findAll().stream().map(
+                        node -> new ElementJson().setId(node.getNodeId())).collect(Collectors.toList());
+                outputStream.write("{\"elements\":[".getBytes(StandardCharsets.UTF_8));
+                AtomicInteger counter = new AtomicInteger();
+                batches(el, streamLimit).forEach(ids -> {
+                    try {
+                        if (counter.get() == 0) {
+                            counter.getAndIncrement();
+                        } else {
+                            outputStream.write(",".getBytes(StandardCharsets.UTF_8));
+                        }
+                        Collection<ElementJson> result = nodeGetHelper.processGetJson(ids, commitId, this).getActiveElementMap().values();
+                        outputStream.write(result.stream().map(this::toJson).collect(Collectors.joining(",")).getBytes(StandardCharsets.UTF_8));
+                    } catch (IOException ioe) {
+                        logger.error("Error writing to stream", ioe);
+                    }
+                });
+                outputStream.write("]}".getBytes(StandardCharsets.UTF_8));
+            };
+            return new ResponseEntity(stream, HttpStatus.OK);
+        } else {
         StreamingResponseBody stream = outputStream -> {
             List<String> indexIds = new ArrayList<>();
             ContextHolder.setContext(projectId, refId);
@@ -52,6 +77,7 @@ public class TestNodeService extends DefaultNodeService implements NodeService {
             outputStream.write("]}".getBytes(StandardCharsets.UTF_8));
         };
         return new ResponseEntity(stream, HttpStatus.OK);
+        }
     }
 
     public ResponseEntity<StreamingResponseBody> createOrUpdateFromStream(String projectId, String refId, String tmpFile, Map<String, String> params, String user) {
