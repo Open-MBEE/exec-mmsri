@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
         http.headers().cacheControl();
 
         //To enable HSTS, uncomment below
-        /*
+
         http.headers()
                 .httpStrictTransportSecurity()
                 .includeSubDomains(true)
