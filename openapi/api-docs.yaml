@@ -864,6 +864,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ElementsResponse'
+            application/x-ndjson:
     put:
       tags:
         - Elements

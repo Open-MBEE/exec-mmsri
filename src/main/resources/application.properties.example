@@ -2,7 +2,7 @@
 # local admin user will get created if doesn't exist
 mms.admin.username=test
 mms.admin.password=test
-mms.stream.limit=100000
+mms.stream.batch.size=100000
 
 # jwt issued by mms for logins via /authentication
 jwt.secret=make_me_something_really_long
@@ -59,6 +59,7 @@ elasticsearch.limit.result=10000
 elasticsearch.limit.term=1000
 elasticsearch.limit.scrollTimeout=1000
 elasticsearch.limit.get=10000
+elasticsearch.limit.index=5000
 
 # s3 storage config for artifacts
 s3.endpoint=http://localhost:9000
@@ -81,6 +82,7 @@ logbook.filter.form-request-mode=off
 # exclude swagger ui and actuator
 logbook.exclude=/v3/**,/actuator/**
 #logbook.write.max-body-size=-1
+logbook.strategy=without-body
 # style can be splunk|http|json|curl
 logbook.format.style=splunk
 

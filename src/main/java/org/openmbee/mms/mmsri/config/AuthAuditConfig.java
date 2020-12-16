@@ -25,7 +25,7 @@ public class AuthAuditConfig{
             return;
         }
         ExtendedWebAuthenticationDetails details = (ExtendedWebAuthenticationDetails)auditEvent.getData().get("details");
-        logger.info(auditEvent.getPrincipal() + " - " + details.getMethod() + " - " + details.getRequestUrl());
+        logger.info(auditEvent.getPrincipal() + " - " + details.getMethod() + " - " + details.getRequestUrl() + details.getQuery());
     }
 
     @Bean
