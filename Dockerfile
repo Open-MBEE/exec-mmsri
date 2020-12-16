@@ -13,6 +13,6 @@ COPY --from=build application/dependencies/ ./
 COPY --from=build application/spring-boot-loader/ ./
 COPY --from=build application/snapshot-dependencies/ ./
 COPY --from=build application/application/ ./
-ENV JAVA_TOOL_OPTIONS "-XX:MaxRAMPercentage=90.0 -XX:+PrintFlagsFinal -XX:+UseZGC"
+ENV JDK_JAVA_OPTIONS "-XX:MaxRAMPercentage=90.0 -XX:+PrintFlagsFinal -XX:+UseZGC"
 ENTRYPOINT ["java", "--add-opens", "java.base/java.lang=ALL-UNNAMED", "org.springframework.boot.loader.JarLauncher"]
 EXPOSE 8080
