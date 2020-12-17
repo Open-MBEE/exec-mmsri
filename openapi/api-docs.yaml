@@ -864,6 +864,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ElementsResponse'
+            application/x-ndjson:
     put:
       tags:
         - Elements
@@ -1314,6 +1315,19 @@ paths:
                 properties:
                   mmsVersion:
                     type: string
+      security: []
+  /users:
+    get:
+      tags:
+        - Auth
+      operationId: getUsers
+      responses:
+        "200":
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
 components:
   schemas:
     JwtAuthenticationResponse:
@@ -1343,8 +1357,34 @@ components:
           type: string
         password:
           type: string
+        email:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
         admin:
           type: boolean
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        admin:
+          type: boolean
+        password:
+          type: string
+          writeOnly: true
+        enabled:
+          type: boolean
+        fullName:
+          type: string
     Element:
       type: object
       properties:
@@ -2098,6 +2138,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Org'
+    UsersResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
   securitySchemes:
     bearerToken:
       type: http
