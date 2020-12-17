@@ -5,14 +5,17 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 public class ExtendedWebAuthenticationDetails extends WebAuthenticationDetails {
 
-    private final String requestUrl;
-    private final String method;
+    private String requestUrl;
+    private String method;
+    private String query;
 
     public ExtendedWebAuthenticationDetails(HttpServletRequest request) {
         super(request);
         //include request url in authentication event
         this.requestUrl = request.getRequestURI();
         this.method = request.getMethod();
+        this.query = request.getQueryString();
+        this.query = this.query == null ? "" : ("?" + this.query);
     }
 
     public String getRequestUrl() {
@@ -21,5 +24,9 @@ public class ExtendedWebAuthenticationDetails extends WebAuthenticationDetails {
 
     public String getMethod() {
         return method;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }

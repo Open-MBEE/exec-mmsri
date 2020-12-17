@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
@@ -44,6 +43,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
                 .antMatchers("/actuator/**").hasAuthority("mmsadmin")
                 .anyRequest().permitAll().and().httpBasic().authenticationDetailsSource(detailsSource);
         http.headers().cacheControl();
+
+        //To enable HSTS, uncomment below
+
+        http.headers()
+                .httpStrictTransportSecurity()
+                .includeSubDomains(true)
+                .maxAgeInSeconds(31536000);
+        //*/
+
         //filter only needed if not permitAll
         //http.addFilterAfter(corsFilter(), ExceptionTranslationFilter.class);
         authSecurityConfig.setAuthConfig(http);
