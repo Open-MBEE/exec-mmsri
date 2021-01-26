@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,19 +48,22 @@ public class DonBotCompatController extends BaseController {
         List<Project> allProjects = projectRepository.findAll();
         allProjects.removeIf(proj -> !mss.hasProjectPrivilege(auth, proj.getProjectId(), Privileges.PROJECT_READ.name(), true));
 
-        response.getProjects().addAll(allProjects.stream().map(proj -> {
+        response.getProjects().addAll(allProjects.stream().filter(proj -> proj.getDocId() != null && !proj.isDeleted()).map(proj -> {
             ContextHolder.setContext(proj.getProjectId());
-            if (proj.getDocId() != null && !proj.isDeleted()) {
-                Optional<ProjectJson> projectJsonOption = projectIndex.findById(proj.getDocId());
-                if (projectJsonOption.isPresent() && projectJsonOption.get().getOrgId().equals(orgId)) {
-                    return projectJsonOption.get();
-                } else {
-                    logger.error("Project json not found for id: {}", proj.getProjectId());
-                }
+            Optional<ProjectJson> projectJsonOption = projectIndex.findById(proj.getDocId());
+            if (projectJsonOption.isPresent() && projectJsonOption.get().getOrgId().equals(orgId)) {
+                ProjectJson project = projectJsonOption.get();
+                project.setProjectId(proj.getProjectId());
+                return projectJsonOption.get();
+            } else if (projectJsonOption.isPresent()) {
+                logger.debug("Filtered project: {}", proj.getProjectId());
+            } else {
+                logger.error("Project json not found for id: {}", proj.getProjectId());
             }
             return null;
         }).collect(Collectors.toList()));
 
+        response.getProjects().removeAll(Collections.singleton(null));
         return response;
     }
 }
