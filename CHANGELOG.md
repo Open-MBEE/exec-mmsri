@@ -34,6 +34,16 @@ IS:
 
     POST {"projects": [{"id": "projectId", "name": "project name", "orgId": "orgId", "schema": "cameo"}]} to /projects
 
+## Get Projects by Org
+
+WAS:
+
+    GET /orgs/{orgId}/projects
+    
+IS:
+
+    GET /projects?orgId={orgId} 
+
 ## Artifacts
 
 WAS:

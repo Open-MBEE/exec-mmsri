@@ -60,6 +60,7 @@ elasticsearch.limit.term=1000
 elasticsearch.limit.scrollTimeout=1000
 elasticsearch.limit.get=10000
 elasticsearch.limit.index=5000
+elasticsearch.limit.commit=100000
 
 # s3 storage config for artifacts
 s3.endpoint=http://localhost:9000
