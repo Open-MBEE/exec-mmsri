@@ -6,6 +6,11 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.txt
   version: 4.0.0
+  contact:
+    name: OpenMBEE
+    url: http://openmbee.org
+    email: mms@openmbee.org
+
 servers:
   - url: http://localhost:8080
     description: Generated server url
@@ -700,9 +705,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/ElementsResponse'
-                  - type: string
+                  $ref: '#/components/schemas/ElementsResponse'
     post:
       tags:
         - Artifacts
