@@ -672,7 +672,7 @@ paths:
     get:
       tags:
         - Elements
-      operationId: getArtifactForElement_1
+      operationId: getElement
       parameters:
         - name: projectId
           in: path
@@ -694,18 +694,13 @@ paths:
           required: false
           schema:
             type: string
-        - name: Accept
-          in: header
-          required: true
-          schema:
-            type: string
       responses:
         "200":
           description: default response
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/ElementsResponse'
+                $ref: '#/components/schemas/ElementsResponse'
     post:
       tags:
         - Artifacts
