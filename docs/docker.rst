@@ -1,8 +1,8 @@
-.. _quickstart:
+.. _docker:
 
-===========
-Quick Start
-===========
+===================
+Docker Installation
+===================
 
 This quick start will focus on running all dependencies and the MMS application as docker containers. This is most suitable for testing environments. For production deployments, we recommend the `MMS Reference Implementation <https://github.com/Open-MBEE/mmsri>`_ as a starting point.
 

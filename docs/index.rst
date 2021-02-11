@@ -15,6 +15,5 @@ Welcome to Model Management System's documentation!
   :glob:
 
   overview
-  quickstart
   installation
   configuration

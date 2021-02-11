@@ -1,7 +1,11 @@
 .. _windows:
 
-Instructions for Windows
-========================
+====================
+Windows Installation
+====================
+
+Setup
+=====
 
 This document describes how to configure and start up a running version of MMS 4 using the MMS Reference Implementation (MMSRI).
 
@@ -14,9 +18,6 @@ Versions Used to Test these instructions
 
   * Docker Engine v19.03.13
   * Docker-Compose v1.27.4
-
-Steps
-=====
 
 1. Download and install Docker Desktop
 --------------------------------------

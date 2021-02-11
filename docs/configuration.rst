@@ -13,6 +13,16 @@ Configuration Options
   mms.admin.password
     The root admin password to use.
 
+  mms.stream.batch.size
+    The limit to use when processing stream data.
+
+    | `Default: 100000`
+
+  rdb.project.prefix
+    The prefix to use for project database creation.
+
+    | `Default: ''`
+
 Spring Data Configuration
 -------------------------
 
@@ -72,7 +82,7 @@ The following are a list of options to configure the Elastic Module for MMS.
   elasticsearch.limit.scrollTimeout
     The maximum time to wait for search requests. Optional.
 
-    | `Default: 1000`
+    | `Default: 100000`
 
   elasticsearch.limit.get
     The maximum number of elements that a single get request should return. Optional.
@@ -92,6 +102,9 @@ The following are a list of options to configure the Elastic Module for MMS.
 LDAP Configuration
 ------------------
 
+  ldap.enabled
+    Enable the LDAP plugin. Required.
+
   ldap.provider.base
     The base string to use. Required.
 
@@ -101,8 +114,12 @@ LDAP Configuration
   ldap.provider.userdn
     The userdn to use to authenticate to the provider. Optional.
 
+    | `Default: null`
+
   ldap.provider.password
     The password to use to authenticate to the provider. Optional.
+
+    | `Default: null`
 
   ldap.user.dn.pattern
     The dn pattern for the user. Required.
@@ -110,7 +127,7 @@ LDAP Configuration
   ldap.user.attributes.username
     The attribute to use for the username. Optional.
 
-    | `Default: uid`
+    | `Default: uid={0}`
 
   ldap.user.attributes.email
     The attribute to use for the email address. Optional.
@@ -125,6 +142,8 @@ LDAP Configuration
 
   ldap.group.search.filter
     The search filter for group search. Optional.
+
+    | `Default: (uniqueMember={0})`
 
 SSL & HSTS
 ----------
