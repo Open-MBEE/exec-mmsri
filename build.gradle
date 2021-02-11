@@ -25,13 +25,11 @@ repositories {
 }
 
 dependencies {
-    compile (
-            "org.openmbee.mms:crud:${mmsVersion}",
-    )
     implementation (
             "org.openmbee.mms:authenticator:${mmsVersion}",
             "org.openmbee.mms:localuser:${mmsVersion}",
             "org.openmbee.mms:ldap:${mmsVersion}",
+            "org.openmbee.mms:crud:${mmsVersion}",
             "org.openmbee.mms:cameo:${mmsVersion}",
             "org.openmbee.mms:elastic:${mmsVersion}",
             "org.openmbee.mms:jupyter:${mmsVersion}",
@@ -39,6 +37,7 @@ dependencies {
             "org.openmbee.mms:webhooks:${mmsVersion}",
             "org.openmbee.mms:search:${mmsVersion}",
             "org.openmbee.mms:storage:${mmsVersion}",
+            "org.openmbee.mms:groups:${mmsVersion}",
             "org.springframework.boot:spring-boot-starter-web",
             'org.springframework.boot:spring-boot-starter-actuator',
             "org.postgresql:postgresql:42.2.5",
@@ -49,7 +48,7 @@ dependencies {
     testImplementation(
             'org.springframework.boot:spring-boot-starter-test'
     )
-    swaggerCodegen 'org.openapitools:openapi-generator-cli:4.3.1'
+    swaggerCodegen 'org.openapitools:openapi-generator-cli:5.0.1'
 }
 
 swaggerSources {
