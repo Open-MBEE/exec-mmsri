@@ -82,12 +82,12 @@ The following are a list of options to configure the Elastic Module for MMS.
   elasticsearch.limit.scrollTimeout
     The maximum time to wait for search requests. Optional.
 
-    | `Default: 100000`
+    | `Default: 1000`
 
   elasticsearch.limit.get
     The maximum number of elements that a single get request should return. Optional.
 
-    | `Default: 5000`
+    | `Default: 100000`
 
   elasticsearch.limit.index
     The maximum number of elements that will be indexed in a single bulk request. Optional.
