@@ -6,6 +6,11 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.txt
   version: 4.0.0
+  contact:
+    name: OpenMBEE
+    url: http://openmbee.org
+    email: mms@openmbee.org
+
 servers:
   - url: http://localhost:8080
     description: Generated server url
@@ -269,7 +274,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupsResponse'
+                $ref: '#/components/schemas/ViewGroupsResponse'
   /projects/{projectId}/refs/{refId}/notebooks:
     get:
       tags:
@@ -663,11 +668,91 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ElementsSearchResponse'
+  /groups/{group}:
+    get:
+      tags:
+        - Groups
+      operationId: getGroup
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+    put:
+      tags:
+        - Groups
+      operationId: createLocalGroup
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: default response
+    delete:
+      tags:
+        - Groups
+      operationId: deleteLocalGroup
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: default response
+  /groups:
+    get:
+      tags:
+        - Groups
+      operationId: getAllGroups
+      responses:
+        "200":
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsResponse'
+  /groups/{group}/users:
+    post:
+      tags:
+        - Groups
+      operationId: updateGroupUsers
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUpdateResponse'
   /projects/{projectId}/refs/{refId}/elements/{elementId}:
     get:
       tags:
         - Elements
-      operationId: getArtifactForElement_1
+      operationId: getElement
       parameters:
         - name: projectId
           in: path
@@ -689,20 +774,13 @@ paths:
           required: false
           schema:
             type: string
-        - name: Accept
-          in: header
-          required: true
-          schema:
-            type: string
       responses:
         "200":
           description: default response
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/ElementsResponse'
-                  - type: string
+                $ref: '#/components/schemas/ElementsResponse'
     post:
       tags:
         - Artifacts
@@ -865,6 +943,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ElementsResponse'
             application/x-ndjson:
+              schema:
+                type: string
     put:
       tags:
         - Elements
@@ -1545,7 +1625,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Element'
-    GroupsResponse:
+    ViewGroupsResponse:
       type: object
       properties:
         messages:
@@ -1563,6 +1643,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Element'
+    GroupsResponse:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            type: string
     NotebooksResponse:
       type: object
       properties:
@@ -2004,6 +2091,59 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Project'
+    GroupResponse:
+      required:
+        - group
+      type: object
+      properties:
+        group:
+          type: string
+        users:
+          type: array
+          nullable: true
+          items:
+            type: string
+            nullable: true
+    GroupUpdateRequest:
+      required:
+        - action
+        - users
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+            - ADD
+            - REMOVE
+        users:
+          type: array
+          items:
+            type: string
+    GroupUpdateResponse:
+      required:
+        - group
+      type: object
+      properties:
+        group:
+          type: string
+        added:
+          type: array
+          nullable: true
+          items:
+            type: string
+            nullable: true
+        removed:
+          type: array
+          nullable: true
+          items:
+            type: string
+            nullable: true
+        rejected:
+          type: array
+          nullable: true
+          items:
+            type: string
+            nullable: true
     Commit:
       required:
         - id

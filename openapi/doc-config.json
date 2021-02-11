@@ -1,7 +1,7 @@
 {
-    "pythonPackageName": "mms_client",
+    "pythonPackageName": "mms_python_client",
     "invokerPackage": "org.openmbee.mms",
     "groupId": "org.openmbee.mms",
     "artifactId": "mms-client",
-    "artifactVersion": "4.0.0-b4"
+    "artifactVersion": "4.0.0"
 }
