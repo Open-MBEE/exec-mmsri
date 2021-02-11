@@ -137,13 +137,35 @@ LDAP Configuration
   ldap.group.role.attribute
     The attribute to use for the group role. Optional.
 
+    | `Default: cn`
+
   ldap.group.search.base
     The base for group search. Optional.
+
+    | `Default: ''`
 
   ldap.group.search.filter
     The search filter for group search. Optional.
 
     | `Default: (uniqueMember={0})`
+
+
+Storage Configuration
+---------------------
+
+  s3.access_key
+    This is the access key for the S3 bucket. Required.
+
+  s3.secret_key
+    This is the secret key for the S3 bucket. Required.
+
+  s3.region
+    This is the region that the S3 bucket is located in. Required.
+
+  s3.bucket
+    This is the name of the S3 bucket. Optional.
+
+    | `Default: mms`
 
 SSL & HSTS
 ----------
