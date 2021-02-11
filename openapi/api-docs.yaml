@@ -668,6 +668,86 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ElementsSearchResponse'
+  /groups/{group}:
+    get:
+      tags:
+        - Groups
+      operationId: getGroup
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupResponse'
+    put:
+      tags:
+        - Groups
+      operationId: createLocalGroup
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: default response
+    delete:
+      tags:
+        - Groups
+      operationId: deleteLocalGroup
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: default response
+  /groups:
+    get:
+      tags:
+        - Groups
+      operationId: getAllGroups
+      responses:
+        "200":
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsResponse'
+  /groups/{group}/users:
+    post:
+      tags:
+        - Groups
+      operationId: updateGroupUsers
+      parameters:
+        - name: group
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUpdateResponse'
   /projects/{projectId}/refs/{refId}/elements/{elementId}:
     get:
       tags:
@@ -2004,6 +2084,59 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Project'
+    GroupResponse:
+      required:
+        - group
+      type: object
+      properties:
+        group:
+          type: string
+        users:
+          type: array
+          nullable: true
+          items:
+            type: string
+            nullable: true
+    GroupUpdateRequest:
+      required:
+        - action
+        - users
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+            - ADD
+            - REMOVE
+        users:
+          type: array
+          items:
+            type: string
+    GroupUpdateResponse:
+      required:
+        - group
+      type: object
+      properties:
+        group:
+          type: string
+        added:
+          type: array
+          nullable: true
+          items:
+            type: string
+            nullable: true
+        removed:
+          type: array
+          nullable: true
+          items:
+            type: string
+            nullable: true
+        rejected:
+          type: array
+          nullable: true
+          items:
+            type: string
+            nullable: true
     Commit:
       required:
         - id
