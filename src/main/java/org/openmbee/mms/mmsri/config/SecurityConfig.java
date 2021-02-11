@@ -2,6 +2,7 @@ package org.openmbee.mms.mmsri.config;
 
 import org.openmbee.mms.authenticator.config.AuthSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -29,6 +30,9 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements
     WebMvcConfigurer {
 
+    @Value("${mms.hsts.enabled:false}")
+    private boolean hsts;
+
     @Autowired
     AuthSecurityConfig authSecurityConfig;
 
@@ -44,13 +48,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
                 .anyRequest().permitAll().and().httpBasic().authenticationDetailsSource(detailsSource);
         http.headers().cacheControl();
 
-        //To enable HSTS, uncomment below
-
-        http.headers()
-                .httpStrictTransportSecurity()
-                .includeSubDomains(true)
-                .maxAgeInSeconds(31536000);
-        //*/
+        if (hsts) {
+            http.headers()
+                    .httpStrictTransportSecurity()
+                    .includeSubDomains(true)
+                    .maxAgeInSeconds(31536000);
+        }
 
         //filter only needed if not permitAll
         //http.addFilterAfter(corsFilter(), ExceptionTranslationFilter.class);
