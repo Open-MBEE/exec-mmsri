@@ -274,7 +274,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupsResponse'
+                $ref: '#/components/schemas/ViewGroupsResponse'
   /projects/{projectId}/refs/{refId}/notebooks:
     get:
       tags:
@@ -1625,7 +1625,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Element'
-    GroupsResponse:
+    ViewGroupsResponse:
       type: object
       properties:
         messages:
@@ -1643,6 +1643,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Element'
+    GroupsResponse:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            type: string
     NotebooksResponse:
       type: object
       properties:
