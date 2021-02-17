@@ -1,6 +1,7 @@
 package org.openmbee.mms.mmsri.config;
 
 import java.io.IOException;
+import java.util.UUID;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ public class LoggingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws IOException, ServletException {
+        String corr = UUID.randomUUID().toString();
         long time = System.currentTimeMillis();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user = "anonymousUser";
@@ -28,7 +30,7 @@ public class LoggingFilter implements Filter {
         HttpServletRequest r = (HttpServletRequest) req;
         String query = r.getQueryString();
         query = query == null ? "" : ("?" + query);
-        LOGGER.info("{} - {} - {}", user, r.getMethod(), r.getRequestURI() + query);
+        LOGGER.info("req - {} - {} - {} - {}", user, r.getMethod(), r.getRequestURI() + query, corr);
 
         chain.doFilter(req, resp);
 
@@ -38,6 +40,6 @@ public class LoggingFilter implements Filter {
         if (auth != null) {
             user = auth.getName();
         }
-        LOGGER.info("{} - {} - {} - {} - {} ms ", res.getStatus(), user, r.getMethod(), r.getRequestURI() + query, time);
+        LOGGER.info("res - {} - {} - {} - {} - {} - {}ms ", user, r.getMethod(), r.getRequestURI() + query, corr, res.getStatus(), time);
     }
 }
