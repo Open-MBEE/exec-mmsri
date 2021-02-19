@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -36,18 +36,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
     @Autowired
     AuthSecurityConfig authSecurityConfig;
 
-    @Autowired
-    WebAuthenticationDetailsSource detailsSource;
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         //permit all for anonymous access for public projects
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/actuator/health/**").permitAll()
                 .antMatchers("/actuator/**").hasAuthority("mmsadmin")
-                .anyRequest().permitAll().and().httpBasic().authenticationDetailsSource(detailsSource);
+                .anyRequest().permitAll().and().httpBasic();
         http.headers().cacheControl();
-
+        http.addFilterAfter(new LoggingFilter(), UsernamePasswordAuthenticationFilter.class);
         if (hsts) {
             http.headers()
                     .httpStrictTransportSecurity()
