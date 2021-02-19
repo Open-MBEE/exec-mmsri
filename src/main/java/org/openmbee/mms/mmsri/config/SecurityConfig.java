@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
                 .antMatchers("/actuator/**").hasAuthority("mmsadmin")
                 .anyRequest().permitAll().and().httpBasic();
         http.headers().cacheControl();
-        http.addFilterAfter(new LoggingFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(new LoggingFilter(), AnonymousAuthenticationFilter.class);
         if (hsts) {
             http.headers()
                     .httpStrictTransportSecurity()
