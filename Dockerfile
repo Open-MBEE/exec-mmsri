@@ -3,7 +3,7 @@ FROM openjdk:15.0.1-jdk-slim as build
 WORKDIR application
 COPY . .
 RUN ./gradlew --no-daemon bootJar
-RUN cp build/libs/mms*.jar app.jar
+RUN find . -type f -name mms*.jar -not -iname '*javadoc*' -not -iname '*sources*' -exec cp '{}' 'app.jar' ';'
 RUN java -Djarmode=layertools -jar app.jar extract
 
 FROM openjdk:15.0.1-jdk-slim
