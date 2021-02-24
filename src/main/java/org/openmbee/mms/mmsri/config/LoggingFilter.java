@@ -30,16 +30,21 @@ public class LoggingFilter implements Filter {
         HttpServletRequest r = (HttpServletRequest) req;
         String query = r.getQueryString();
         query = query == null ? "" : ("?" + query);
-        LOGGER.info("req - {} - {} - {} - {}", user, r.getMethod(), r.getRequestURI() + query, corr);
-
+        if (!r.getRequestURI().startsWith("/actuator") && !r.getRequestURI().startsWith("/v3")) {
+            LOGGER.info("req - {} - {} - {} - {}", user, r.getMethod(), r.getRequestURI() + query,
+                    corr);
+        }
         chain.doFilter(req, resp);
 
         time = System.currentTimeMillis() - time;
-        HttpServletResponse res = (HttpServletResponse)resp;
+        HttpServletResponse res = (HttpServletResponse) resp;
         auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             user = auth.getName();
         }
-        LOGGER.info("res - {} - {} - {} - {} - {} - {}ms ", user, r.getMethod(), r.getRequestURI() + query, corr, res.getStatus(), time);
+        if (!r.getRequestURI().startsWith("/actuator") && !r.getRequestURI().startsWith("/v3")) {
+            LOGGER.info("res - {} - {} - {} - {} - {} - {}ms ", user, r.getMethod(),
+                    r.getRequestURI() + query, corr, res.getStatus(), time);
+        }
     }
 }
