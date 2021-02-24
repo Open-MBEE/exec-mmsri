@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @OpenAPIDefinition(
     info = @Info(
         title = "MMS Reference Implementation API",
-        version = "4.0.0",
+        version = "4.0.3",
         description = "Documentation for MMS API",
         license = @License(name = "Apache 2.0", url = "http://www.apache.org/licenses/LICENSE-2.0.txt")
     ),
