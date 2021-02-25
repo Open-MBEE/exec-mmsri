@@ -1529,6 +1529,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Element'
+        commitId:
+          type: string
+          nullable: true
     Rejection:
       type: object
       properties:
