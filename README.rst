@@ -30,7 +30,7 @@ Installation instructions are found here: `Docker documentation <https://docs.do
 Option 1: Get from dockerhub
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use tag 4.x from `Dockerhub <https://hub.docker.com/repository/docker/openmbee/mms/general>`_
+Use tag 4.x from `Dockerhub <https://hub.docker.com/r/openmbee/mms>`_
 
 Option 2: Build from repo
 ~~~~~~~~~~~~~~~~~~~~~~~~~
