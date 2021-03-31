@@ -15,7 +15,7 @@ MMS Reference Implementation
   :target: https://mms-reference-implementation.readthedocs.io/en/latest/?badge=latest
   :alt: Documentation Status
 
-This is the reference implementation for MMS. For the source code, please head to `https://github.com/Open-MBEE/mms <https://github.com/Open-MBEE/mms>`_. For more information about Open-MBEE, visit the `Open-MBEE Website <https://openmbee.org/>`_.
+This is the reference implementation for MMS. For the source code, please head to `https://github.com/Open-MBEE/mms <https://github.com/Open-MBEE/mms>`_. For more information about Open-MBEE, visit the `Open-MBEE Website <https://openmbee.org/>`_. For more detailed documentation, visit `MMSRI ReadTheDocs <https://mms-reference-implementation.readthedocs.io/en/latest/>`_.
 
 Quick Start
 -----------
