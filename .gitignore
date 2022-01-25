@@ -30,3 +30,5 @@ localhost-env.json
 
 **/bin
 **/_build
+*.ks
+*.jks
