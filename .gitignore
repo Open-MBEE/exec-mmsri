@@ -2,6 +2,7 @@
 **/build/
 application.properties
 localhost-env.json
+includes/*
 .vscode
 
 ### STS ###
