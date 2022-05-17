@@ -8,7 +8,7 @@ Dependencies
 
 This guide assumes that you have setup and configured the following dependencies and that the server or instance the MMS RI application will have access to the services.
 
-  - Java 11+
+  - Java 15+
   - Postgresql 11 or MySQL 5.7+
   - Elasticsearch 7.8+
   - S3 Bucket (either provided by AWS or by MinIO in case of local storage)
