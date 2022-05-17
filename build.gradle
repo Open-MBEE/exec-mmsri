@@ -1,15 +1,24 @@
 buildscript {
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
     repositories {
         mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://repo.spring.io/plugins-release' }
     }
 }
 
 plugins {
     id 'org.hidetake.swagger.generator' version '2.18.2'
     id 'org.springframework.boot' version "${springBootVersion}"
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
+
+apply plugin: 'java-library'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 repositories {
     mavenLocal()
@@ -73,7 +82,10 @@ springBoot {
 }
 
 bootJar {
-    layered()
+    layered {
+        enabled = true
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 //https://stackoverflow.com/questions/61197984/bootjar-mavenjar-artifact-wasnt-produced-by-this-build
