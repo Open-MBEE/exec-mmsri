@@ -77,14 +77,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
                 .allowedMethods("*")
                 .allowCredentials(true)
                 .maxAge(3600L)
-                .allowedOrigins("*");
+                .allowedOriginPatterns("*");
     }
 
     private CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setMaxAge(3600L);
