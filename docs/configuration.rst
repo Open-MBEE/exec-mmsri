@@ -153,11 +153,13 @@ LDAP Configuration
 Storage Configuration
 ---------------------
 
+If aws s3 environment is used and s3.access_key and s3.secret_key are not defined, credentials will be taken according to the `aws default credential provider chain <https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html>`_.
+
   s3.access_key
-    This is the access key for the S3 bucket. Required.
+    This is the access key for the S3 bucket. Required (Optional if using AWS).
 
   s3.secret_key
-    This is the secret key for the S3 bucket. Required.
+    This is the secret key for the S3 bucket. Required (Optional if using AWS).
 
   s3.region
     This is the region that the S3 bucket is located in. Required.
