@@ -25,6 +25,8 @@ repositories {
     mavenCentral()
 }
 
+ext['elasticsearch.version'] = '7.8.1'
+
 dependencies {
     implementation (
             "org.openmbee.mms:authenticator:${mmsVersion}",
