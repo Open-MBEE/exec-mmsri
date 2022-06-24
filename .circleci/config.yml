@@ -1,0 +1,98 @@
+version: 2.1
+orbs:
+  docker: circleci/docker@2.1.1
+
+jobs:
+  build_image:
+    executor:
+      name: docker/docker
+    working_directory: /home/circleci/mms
+    steps:
+      - run:
+          name: Build image
+          command: |
+            cp src/main/resources/application.conf.example ./src/main/resources/application.conf
+            docker build -t openmbee/mms:latest -f Dockerfile-Test .
+      - run:
+          name: Export docker image
+          command: |
+            docker save -o mms.tar openmbee/mms:latest
+      - persist_to_workspace:
+          root: /home/circleci/
+          paths:
+            - mms/*
+
+  deploy_snapshot:
+    executor:
+      name: docker/docker
+    working_directory: /home/circleci/mms
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Login to Dockerhub
+          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - run:
+          name: Load docker image
+          command: docker load -i mms.tar
+      - run:
+          name: Tag docker image
+          command: docker tag openmbee/mms:latest openmbee/mms5-layer1-service:${CIRCLE_BRANCH#*/}-SNAPSHOT
+      - run:
+          name: Deploy snapshot to Dockerhub
+          command: docker push openmbee/mms:${CIRCLE_BRANCH#*/}-SNAPSHOT
+  deploy_release:
+    executor:
+      name: docker/docker
+    working_directory: /home/circleci/mms
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Login to Dockerhub
+          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - run:
+          name: Load docker image
+          command: docker load -i mms.tar
+      - run:
+          name: Tag docker image
+          command: docker tag openmbee/mms:latest openmbee/mms5-layer1-service:${CIRCLE_TAG}
+      - run:
+          name: Deploy release to dockerhub
+          command: docker push openmbee/mms:${CIRCLE_TAG}
+      - run:
+          name: Deploy release as latest to dockerhub
+          command: docker push openmbee/mms:latest
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build_image:
+          filters:
+            tags:
+              only: /[0-9.]+(-(a|b|rc)[0-9]+)?/
+          context:
+            - DockerHub
+      - deploy_snapshot:
+          requires:
+            - build_image
+          filters:
+            branches:
+              only: /((release|hotfix|support)/[0-9.]+(-(a|b|rc)[0-9]+)?|develop)/
+          context:
+            - DockerHub
+      - deploy_release:
+          requires:
+            - build_image
+          filters:
+            tags:
+              only: /[0-9.]+(-(a|b|rc)[0-9]+)?/
+            branches:
+              ignore: /.*/
+          context:
+            - DockerHub
