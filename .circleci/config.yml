@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Build image
           command: |
-            cp src/main/resources/application.conf.example ./src/main/resources/application.conf
+            cp src/main/resources/application.properties.example ./src/main/resources/application.properties
             docker build -t openmbee/mms:latest -f Dockerfile-Test .
       - run:
           name: Export docker image
