@@ -90,7 +90,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
         for (String origin: allowedOrigins.split(",")) {
             config.addAllowedOriginPattern(origin);
         }
-        config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setMaxAge(3600L);
