@@ -33,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
     @Value("${mms.hsts.enabled:false}")
     private boolean hsts;
 
+    @Value("${cors.allowed.origins:*}")
+    private String allowedOrigins;
+
     @Autowired
     AuthSecurityConfig authSecurityConfig;
 
@@ -77,13 +80,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
                 .allowedMethods("*")
                 .allowCredentials(true)
                 .maxAge(3600L)
-                .allowedOriginPatterns("*");
+                .allowedOriginPatterns(allowedOrigins.split(","));
     }
 
     private CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
+        for (String origin: allowedOrigins.split(",")) {
+            config.addAllowedOriginPattern(origin);
+        }
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
