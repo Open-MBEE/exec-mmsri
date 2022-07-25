@@ -19,7 +19,7 @@ Creating Local Users
 
   ::
 
-    curl -X POST "https://cae-mms-test.jpl.nasa.gov/user" -H  "accept: application/json" -H  "Authorization: Basic YWRtaW46bjlXVzJwNlg=" -H  "Content-Type: application/json" -d "{\"username\":\"testuser\",\"password\":\"testpass\",\"email\":\"test@test.com\",\"firstname\":\"Test\",\"lastname\":\"User\",\"admin\":false}"
+    curl -X POST "https://YOUR-MMS-SERVER/user" -H  "accept: application/json" -H  "Authorization: Basic YOUR-AUTH-TOKEN" -H  "Content-Type: application/json" -d "{\"username\":\"testuser\",\"password\":\"testpass\",\"email\":\"test@test.com\",\"firstname\":\"Test\",\"lastname\":\"User\",\"admin\":false}"
 
 Granting user permissions to an existing organization
 -----------------------------------------------------
@@ -40,7 +40,7 @@ Granting user permissions to an existing organization
 
   ::
 
-    curl -X POST "https://cae-mms-test.jpl.nasa.gov/orgs/testorg/permissions" -H  "accept: application/json" -H  "Authorization: Basic YWRtaW46bjlXVzJwNlg=" -H  "Content-Type: application/json" -d "{\"users\":{\"action\":\"MODIFY\",\"permissions\":[{\"name\":\"testuser\",\"role\":\"WRITER\"}]},\"inherit\":true}"
+    curl -X POST "https://YOUR-MMS-SERVER/orgs/{orgId}/permissions" -H  "accept: application/json" -H  "Authorization: Basic YOUR-AUTH-TOKEN" -H  "Content-Type: application/json" -d "{\"users\":{\"action\":\"MODIFY\",\"permissions\":[{\"name\":\"testuser\",\"role\":\"WRITER\"}]},\"inherit\":true}"
 
 Permissions
 ===========
