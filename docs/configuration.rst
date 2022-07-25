@@ -184,3 +184,8 @@ SSL & HSTS
 
   mms.hsts.enabled
     Enable HSTS. Must have a valid SSL.
+
+.. toctree::
+  :maxdepth: 2
+
+  users

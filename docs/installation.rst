@@ -17,3 +17,4 @@ The MMS, in it's reference implementation configuration currently has two main d
   linux
   docker
   windows
+  deployment
