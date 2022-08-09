@@ -6,7 +6,7 @@ jobs:
   build_image:
     executor:
       name: docker/docker
-    working_directory: /home/circleci/mms
+    working_directory: /home/circleci/mmsri
     steps:
       - run:
           name: Build image
@@ -20,12 +20,12 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci/
           paths:
-            - mms/*
+            - mmsri/*
 
   deploy_snapshot:
     executor:
       name: docker/docker
-    working_directory: /home/circleci/mms
+    working_directory: /home/circleci/mmsri
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -46,7 +46,7 @@ jobs:
   deploy_release:
     executor:
       name: docker/docker
-    working_directory: /home/circleci/mms
+    working_directory: /home/circleci/mmsri
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
