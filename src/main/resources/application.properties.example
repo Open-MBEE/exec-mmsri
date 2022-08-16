@@ -98,3 +98,11 @@ management.endpoints.web.exposure.include=*
 #management.endpoints.web.exposure.exclude=configprops,env
 management.endpoint.health.show-details=when_authorized
 management.endpoint.health.roles=mmsadmin
+
+# SAML Testing Properties
+saml.keystore.location=classpath:keystore.jks
+saml.keystore.password=test123
+saml.keystore.alias=1
+saml.idp=http://www.okta.com/exk61fjtzfUQVe43T5d7
+saml.metadata=https://dev-43484597.okta.com/app/exk61fjtzfUQVe43T5d7/sso/saml/metadata
+saml.entityid=http://localhost:8080/saml/metadata

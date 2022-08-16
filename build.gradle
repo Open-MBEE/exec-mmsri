@@ -23,6 +23,7 @@ apply plugin: 'io.spring.dependency-management'
 repositories {
     mavenLocal()
     mavenCentral()
+    maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
 }
 
 ext['elasticsearch.version'] = '7.8.1'
@@ -31,7 +32,6 @@ dependencies {
     implementation (
             "org.openmbee.mms:authenticator:${mmsVersion}",
             "org.openmbee.mms:localuser:${mmsVersion}",
-            "org.openmbee.mms:ldap:${mmsVersion}",
             "org.openmbee.mms:crud:${mmsVersion}",
             "org.openmbee.mms:cameo:${mmsVersion}",
             "org.openmbee.mms:elastic:${mmsVersion}",
@@ -42,12 +42,13 @@ dependencies {
             "org.openmbee.mms:storage:${mmsVersion}",
             "org.openmbee.mms:groups:${mmsVersion}",
             "org.springframework.boot:spring-boot-starter-web",
-            'org.springframework.boot:spring-boot-starter-actuator',
+            "org.springframework.boot:spring-boot-starter-thymeleaf",
             "org.postgresql:postgresql:42.2.5",
             "org.springdoc:springdoc-openapi-ui:1.5.4",
             "org.springdoc:springdoc-openapi-webmvc-core:1.5.4",
             "org.springdoc:springdoc-openapi-security:1.5.4",
-            "org.zalando:logbook-spring-boot-starter:2.2.1"
+            "org.zalando:logbook-spring-boot-starter:2.2.1",
+            "org.springframework.security.extensions:spring-security-saml2-core:1.0.10.RELEASE"
     )
     testImplementation(
             'org.springframework.boot:spring-boot-starter-test'
