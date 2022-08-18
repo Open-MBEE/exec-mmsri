@@ -41,19 +41,20 @@ dependencies {
             "org.openmbee.mms:search:${mmsVersion}",
             "org.openmbee.mms:storage:${mmsVersion}",
             "org.openmbee.mms:groups:${mmsVersion}",
+            "org.openmbee.mms:rdb:${mmsVersion}",
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-thymeleaf",
-            "org.postgresql:postgresql:42.2.5",
-            "org.springdoc:springdoc-openapi-ui:1.5.4",
-            "org.springdoc:springdoc-openapi-webmvc-core:1.5.4",
-            "org.springdoc:springdoc-openapi-security:1.5.4",
-            "org.zalando:logbook-spring-boot-starter:2.2.1",
+            'org.postgresql:postgresql:42.3.6',
+            'org.springdoc:springdoc-openapi-ui:1.6.9',
+            'org.springdoc:springdoc-openapi-webmvc-core:1.6.9',
+            'org.springdoc:springdoc-openapi-security:1.6.9',
+            'org.zalando:logbook-spring-boot-starter:2.14.0',
             "org.springframework.security.extensions:spring-security-saml2-core:1.0.10.RELEASE"
     )
     testImplementation(
             'org.springframework.boot:spring-boot-starter-test'
     )
-    swaggerCodegen 'org.openapitools:openapi-generator-cli:5.0.1'
+    swaggerCodegen 'org.openapitools:openapi-generator-cli:6.0.1'
 }
 
 swaggerSources {

@@ -1,6 +1,7 @@
 package org.openmbee.mms.mmsri.config;
 
 import org.openmbee.mms.authenticator.config.AuthSecurityConfig;
+import org.openmbee.mms.authenticator.security.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +27,7 @@ import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -55,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Value("${cors.allowed.origins:*}")
     private String allowedOrigins;
 
-    @Value("${saml.entityid}")
+    @Value("${saml.entity-id}")
     private String samlAudience;
 
     @Autowired
@@ -77,12 +78,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 
     @Bean
     public SAMLDiscovery samlDiscovery() {
-        SAMLDiscovery idpDiscovery = new SAMLDiscovery();
-        return idpDiscovery;
+        return new SAMLDiscovery();
     }
-
-    @Autowired
-    private SAMLAuthenticationProvider samlAuthenticationProvider;
 
     @Autowired
     private ExtendedMetadata extendedMetadata;
@@ -96,8 +93,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.headers().cacheControl();
+
+        if (hsts) {
+            http.headers().httpStrictTransportSecurity().includeSubDomains(true).maxAgeInSeconds(31536000);
+        }
+
         http.httpBasic().authenticationEntryPoint(samlEntryPoint);
+
         http.authorizeRequests().antMatchers("/").permitAll().anyRequest().authenticated();
+
+        //filter only needed if not permitAll
+        //http.addFilterAfter(corsFilter(), ExceptionTranslationFilter.class);
+
+        http.addFilterBefore(metadataGeneratorFilter(), ChannelProcessingFilter.class);
+        http.addFilterBefore(samlFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(new LoggingFilter(), AnonymousAuthenticationFilter.class);
+
+        //authSecurityConfig.setAuthConfig(http);
+
         http.logout().addLogoutHandler((request, response, authentication) -> {
             try {
                 response.sendRedirect("/saml/logout");
@@ -105,19 +119,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 e.printStackTrace();
             }
         });
-
-        http.headers().cacheControl();
-        http.addFilterBefore(metadataGeneratorFilter(), ChannelProcessingFilter.class)
-                .addFilterBefore(samlFilter(), CsrfFilter.class)
-                .addFilterAfter(new LoggingFilter(), AnonymousAuthenticationFilter.class);
-
-        if (hsts) {
-            http.headers().httpStrictTransportSecurity().includeSubDomains(true).maxAgeInSeconds(31536000);
-        }
-
-        //filter only needed if not permitAll
-        //http.addFilterAfter(corsFilter(), ExceptionTranslationFilter.class);
-        //authSecurityConfig.setAuthConfig(http);
     }
 
     @Bean
@@ -200,8 +201,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
         return new MetadataGeneratorFilter(metadataGenerator());
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    @Autowired
+    protected void configureSaml(AuthenticationManagerBuilder auth, SAMLAuthenticationProvider samlAuthenticationProvider) throws Exception {
         auth.authenticationProvider(samlAuthenticationProvider);
     }
 }
