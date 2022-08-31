@@ -3,5 +3,5 @@
     "invokerPackage": "org.openmbee.mms",
     "groupId": "org.openmbee.mms",
     "artifactId": "mms-client",
-    "artifactVersion": "4.0.4"
+    "artifactVersion": "4.0.9"
 }
