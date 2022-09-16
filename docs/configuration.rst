@@ -122,7 +122,7 @@ LDAP Configuration
     | `Default: null`
 
   ldap.user.dn.pattern
-    The dn pattern for the user. Required.
+    The dn pattern for the user. Can accept multiple patterns for separate branches, delimited by ';'. Required.
 
   ldap.user.attributes.username
     The attribute to use for the username. Optional.
