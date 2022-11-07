@@ -58,10 +58,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableTransactionManagement
 @EnableAsync
-@Order(101)
+@Order(100)
 public class SamlSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${saml.entity-id}")
+    @Value("${saml.entityid}")
     private String samlAudience;
 
     @Bean

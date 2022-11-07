@@ -16,6 +16,11 @@ public class SamlController {
 
     private static final Logger logger = LoggerFactory.getLogger(SamlController.class);
 
+    @RequestMapping("/")
+    public String index() {
+        return "index";
+    }
+
     @GetMapping(value = "/saml/auth")
     public String handleSamlAuth() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
