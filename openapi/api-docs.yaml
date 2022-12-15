@@ -5,7 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.txt
-  version: 4.0.13
+  version: 4.0.15
   contact:
     name: OpenMBEE
     url: http://openmbee.org
@@ -1624,6 +1624,9 @@ components:
       type: object
       properties:
         source:
+          type: string
+          nullable: true
+        lastCommitId:
           type: string
           nullable: true
         comment:
