@@ -5,7 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.txt
-  version: 4.0.9
+  version: 4.0.17
   contact:
     name: OpenMBEE
     url: http://openmbee.org
@@ -1529,6 +1529,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Element'
+        deleted:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Element'
         commitId:
           type: string
           nullable: true
@@ -1621,11 +1626,19 @@ components:
         source:
           type: string
           nullable: true
+        lastCommitId:
+          type: string
+          nullable: true
         comment:
           type: string
           nullable: true
         elements:
           type: array
+          items:
+            $ref: '#/components/schemas/Element'
+        deletes:
+          type: array
+          nullable: true
           items:
             $ref: '#/components/schemas/Element'
     ViewGroupsResponse:

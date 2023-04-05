@@ -42,12 +42,13 @@ dependencies {
             "org.openmbee.mms:storage:${mmsVersion}",
             "org.openmbee.mms:groups:${mmsVersion}",
             "org.springframework.boot:spring-boot-starter-web",
-            'org.springframework.boot:spring-boot-starter-actuator',
-            "org.postgresql:postgresql:42.2.5",
+            "org.springframework.boot:spring-boot-starter-actuator",
+            "org.postgresql:postgresql:42.2.27",
             "org.springdoc:springdoc-openapi-ui:1.5.4",
             "org.springdoc:springdoc-openapi-webmvc-core:1.5.4",
             "org.springdoc:springdoc-openapi-security:1.5.4",
-            "org.zalando:logbook-spring-boot-starter:2.2.1"
+            "org.zalando:logbook-spring-boot-starter:2.2.1",
+            "ch.qos.logback:logback-classic:1.2.11"
     )
     testImplementation(
             'org.springframework.boot:spring-boot-starter-test'
