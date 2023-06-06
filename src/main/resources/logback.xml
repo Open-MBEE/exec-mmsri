@@ -1,5 +1,5 @@
 <configuration scan="true" scanPeriod="10 seconds" debug="true">
-    <contextName>mmsri</contextName>
+    <contextName>mms4</contextName>
     <jmxConfigurator />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
