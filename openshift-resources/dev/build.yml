@@ -1,0 +1,63 @@
+---
+apiVersion: v1
+kind: "BuildConfig"
+metadata:
+  name: "openmbee-mms"
+  annotations:
+    description: "Defines how to build the openmbee mms with a multi-stage Dockerfile."
+spec:
+  completionDeadlineSeconds: 1800
+  env:
+    - name: "GIT_SSL_NO_VERIFY"
+      value: "true"
+  source:
+    type: "Git"
+    git:
+      ref: "master"
+      uri: "ssh://alm-internal.navair.navy.mil/tfs/72_ALM/Sys_Dev/_git/openmbee-mms"
+    contextDir: "openmbee"
+    sourceSecret:
+      name: "tfs-pull-secret"
+  strategy:
+    type: "Docker"
+    dockerStrategy:
+      env:
+        - name: GIT_SSL_NO_VERIFY
+          value: 'true'
+        - name: twistlock_scan_username
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: twistlock-scan
+        - name: twistlock_scan_password
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: twistlock-scan
+        - name: nexus_username
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: nexus-credentials
+        - name: nexus_password
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: nexus-credentials
+      pullSecret:
+        name: nexus-repo-docker-registry-proxy
+  output:
+    to:
+      kind: "DockerImage"
+      name: "registry-cli-docker.wseasttest.navair.navy.mil:5000/722sysdev/openmbee-mms:latest"
+    pushSecret:
+      name: "nexus-repo-docker-registry"
+  postCommit:
+    script: >-
+      curl -k -ssl -u "$twistlock_scan_username:$twistlock_scan_password"
+      https://twistlock-console.twistlock.svc:8083/api/v1/util/twistcli -o
+      ~/twistcli && chmod +x ~/twistcli && ~/twistcli images scan --user
+      $twistlock_scan_username --password $twistlock_scan_password --address
+      https://twistlock-console.twistlock.svc:8083 --containerized
+      --vulnerability-threshold critical
+      --only-fixed --details --publish $OPENSHIFT_BUILD_NAME

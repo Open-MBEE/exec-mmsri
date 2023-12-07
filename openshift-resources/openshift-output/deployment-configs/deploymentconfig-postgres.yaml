@@ -1,0 +1,228 @@
+﻿kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: postgres
+  namespace: openmbee
+  uid: c0c241bb-2fc2-4170-b768-68836e3e0aab
+  resourceVersion: '945421288'
+  generation: 35
+  creationTimestamp: '2023-08-31T19:10:49Z'
+  annotations:
+    template.alpha.openshift.io/wait-for-ready: 'true'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: apps.openshift.io/v1
+      time: '2023-09-14T18:17:18Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:template.alpha.openshift.io/wait-for-ready': {}
+        'f:spec':
+          'f:replicas': {}
+          'f:selector':
+            .: {}
+            'f:name': {}
+          'f:strategy':
+            'f:activeDeadlineSeconds': {}
+            'f:recreateParams':
+              .: {}
+              'f:timeoutSeconds': {}
+            'f:type': {}
+          'f:template':
+            .: {}
+            'f:metadata':
+              .: {}
+              'f:creationTimestamp': {}
+              'f:labels':
+                .: {}
+                'f:name': {}
+            'f:spec':
+              'f:volumes':
+                .: {}
+                'k:{"name":"postgres-data"}':
+                  .: {}
+                  'f:name': {}
+                  'f:persistentVolumeClaim':
+                    .: {}
+                    'f:claimName': {}
+              'f:containers':
+                .: {}
+                'k:{"name":"postgres"}':
+                  'f:image': {}
+                  'f:volumeMounts':
+                    .: {}
+                    'k:{"mountPath":"/var/opt/postgres"}':
+                      .: {}
+                      'f:mountPath': {}
+                      'f:name': {}
+                  'f:terminationMessagePolicy': {}
+                  .: {}
+                  'f:resources':
+                    .: {}
+                    'f:limits':
+                      .: {}
+                      'f:cpu': {}
+                      'f:memory': {}
+                    'f:requests':
+                      .: {}
+                      'f:cpu': {}
+                      'f:memory': {}
+                  'f:env':
+                    .: {}
+                    'k:{"name":"POSTGRESQL_DATABASE"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
+                    'k:{"name":"POSTGRESQL_PASSWORD"}':
+                      .: {}
+                      'f:name': {}
+                      'f:valueFrom':
+                        .: {}
+                        'f:secretKeyRef': {}
+                    'k:{"name":"POSTGRESQL_USER"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
+                  'f:terminationMessagePath': {}
+                  'f:imagePullPolicy': {}
+                  'f:ports':
+                    .: {}
+                    'k:{"containerPort":5432,"protocol":"TCP"}':
+                      .: {}
+                      'f:containerPort': {}
+                      'f:protocol': {}
+                  'f:name': {}
+              'f:dnsPolicy': {}
+              'f:restartPolicy': {}
+              .: {}
+              'f:schedulerName': {}
+              'f:terminationGracePeriodSeconds': {}
+              'f:imagePullSecrets':
+                .: {}
+                'k:{"name":"nexus-repo-docker-registry"}': {}
+              'f:securityContext': {}
+          'f:triggers': {}
+    - manager: openshift-controller-manager
+      operation: Update
+      apiVersion: apps.openshift.io/v1
+      time: '2023-09-25T14:51:03Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:updatedReplicas': {}
+          'f:readyReplicas': {}
+          'f:conditions':
+            .: {}
+            'k:{"type":"Available"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Progressing"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+          'f:details':
+            .: {}
+            'f:causes': {}
+            'f:message': {}
+          'f:replicas': {}
+          'f:availableReplicas': {}
+          'f:observedGeneration': {}
+          'f:unavailableReplicas': {}
+          'f:latestVersion': {}
+      subresource: status
+spec:
+  strategy:
+    type: Recreate
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ConfigChange
+  replicas: 1
+  revisionHistoryLimit: 10
+  test: false
+  selector:
+    name: postgres
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: postgres
+    spec:
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres
+      containers:
+        - resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 2Gi
+          terminationMessagePath: /dev/termination-log
+          name: postgres
+          env:
+            - name: POSTGRESQL_DATABASE
+              value: mms
+            - name: POSTGRESQL_USER
+              value: mmsuser
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: database-password
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/opt/postgres
+          terminationMessagePolicy: File
+          image: >-
+            registry-cli-docker.wseasttest.navair.navy.mil:5000/emergingtech/postgresql-10-rhel7:1
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      imagePullSecrets:
+        - name: nexus-repo-docker-registry
+      schedulerName: default-scheduler
+status:
+  observedGeneration: 35
+  details:
+    message: manual change
+    causes:
+      - type: Manual
+  availableReplicas: 1
+  unavailableReplicas: 0
+  latestVersion: 32
+  updatedReplicas: 1
+  conditions:
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2023-09-19T04:56:05Z'
+      lastTransitionTime: '2023-09-19T04:55:52Z'
+      reason: NewReplicationControllerAvailable
+      message: replication controller "postgres-32" successfully rolled out
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2023-09-25T14:51:03Z'
+      lastTransitionTime: '2023-09-25T14:51:03Z'
+      message: Deployment config has minimum availability.
+  replicas: 1
+  readyReplicas: 1

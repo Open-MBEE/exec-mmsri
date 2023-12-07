@@ -1,0 +1,89 @@
+version: 2.1
+orbs:
+    docker: circleci/docker@2.1.1
+executors:
+  openjdk_executor:
+    docker:
+      - image: cimg/openjdk:17.0.3
+    environment:
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+jobs:
+  build_and_test:
+    executor:
+      name: docker/docker
+    working_directory: /home/circleci/mms
+    steps:
+      - checkout
+
+      - setup_remote_docker
+
+      - run: 
+          name: "Create and start all services from the docker-compose configuration"
+          command: |
+            cp example/src/main/resources/application.properties.example ./example/src/main/resources/application.properties
+            docker-compose up --build -d
+            docker run --network container:mms curlimages/curl --retry 8 --retry-delay 10 --retry-max-time 90 --retry-connrefused http://mms:8080/healthcheck
+
+      - run: 
+          name: "Run and test Postman Collection"
+          command: |
+            docker create -v /etc/newman --name mms_test_configs alpine:3.4 /bin/true
+            docker cp example/. mms_test_configs:/etc/newman
+            docker run --volumes-from mms_test_configs --network container:mms -t postman/newman run crud.postman_collection.json -e test-env.json --delay-request 500
+            docker run --volumes-from mms_test_configs --network container:mms -t postman/newman run cameo.postman_collection.json -e test-env.json --delay-request 1000
+            docker run --volumes-from mms_test_configs --network container:mms -t postman/newman run jupyter.postman_collection.json -e test-env.json --delay-request 500
+            docker run --volumes-from mms_test_configs --network container:mms -t postman/newman run localauth.postman_collection.json -e test-env.json --delay-request 500
+            docker run --volumes-from mms_test_configs --network container:mms -t postman/newman run permissions.postman_collection.json -e test-env.json --delay-request 500
+            docker run --volumes-from mms_test_configs --network container:mms -t postman/newman run search.postman_collection.json -e test-env.json --delay-request 1000
+            docker run --volumes-from mms_test_configs --network container:mms -t postman/newman run artifacts.postman_collection.json -e test-env.json --delay-request 500
+            docker run --volumes-from mms_test_configs --network container:mms -t postman/newman run elastic.postman_collection.json -e test-env.json --delay-request 500
+            docker run --volumes-from mms_test_configs --network container:mms -t postman/newman run groups.postman_collection.json -e test-env.json --delay-request 500
+
+      - persist_to_workspace:
+            root: /home/circleci/
+            paths:
+                - mms/*
+
+  deploy_snapshot:
+      executor: openjdk_executor
+      working_directory: /home/circleci/mms
+      steps:
+          - attach_workspace:
+                at: ~/
+          - run:
+                name: Deploy snapshot to sonatype
+                command: ./gradlew -PossrhUsername=$OSSRH_USERNAME -PossrhPassword=$OSSRH_PASSWORD -PsigningKey="$SIGNING_KEY" -PsigningPassword=$SIGNING_PASSWORD publish
+  deploy_release:
+      executor: openjdk_executor
+      working_directory: /home/circleci/mms
+      steps:
+          - attach_workspace:
+                at: ~/
+          - run:
+                name: Deploy release to sonatype
+                command: ./gradlew -PbuildNumber=$CIRCLE_BUILD_NUM -PbuildTag=$CIRCLE_TAG -PossrhUsername=$OSSRH_USERNAME -PossrhPassword=$OSSRH_PASSWORD -PsigningKey="$SIGNING_KEY" -PsigningPassword=$SIGNING_PASSWORD --info --stacktrace publish
+
+workflows:
+    version: 2
+    build-test-deploy:
+      jobs:
+        - build_and_test:
+              filters:
+                  tags:
+                      only: /[0-9.]+(-(a|b|rc)[0-9]+)?/
+        - deploy_snapshot:
+              requires:
+                  - build_and_test
+              filters:
+                  branches:
+                      only: /((release|hotfix|support)/[0-9.]+(-(a|b|rc)[0-9]+)?|develop)/
+        - deploy_release:
+              requires:
+                  - build_and_test
+              filters:
+                  tags:
+                      only: /[0-9.]+(-(a|b|rc)[0-9]+)?/
+                  branches:
+                      ignore: /.*/

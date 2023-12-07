@@ -1,0 +1,17 @@
+---
+apimmsrsion: v1
+kind: "BuildConfig"
+metadata:
+  name: "openmbee-mms-pipeline"
+spec:
+  completionDeadlineSeconds: 1800
+  source:
+    git:
+      ref: "master"
+      uri: "ssh://alm-internal.navair.navy.mil/tfs/72_ALM/Sys_Dev/_git/openmbee-mms"
+    contextDir: "openmbee"
+    sourceSecret:
+      name: "tfs-pull-secret"
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfilePath: Jenkinsfile

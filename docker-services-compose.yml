@@ -24,6 +24,8 @@ services:
     image: minio/minio:latest
     network_mode: host
     environment:
+      # - "MINIO_ROOT_USER=admintest"
+      # - "MINIO_ROOT_PASSWORD=admintest"
       - "MINIO_ACCESS_KEY=admintest"
       - "MINIO_SECRET_KEY=admintest"
     command: server /tmp/data

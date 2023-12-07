@@ -1,0 +1,53 @@
+﻿kind: Service
+apiVersion: v1
+metadata:
+  name: openmbee-mms
+  namespace: openmbee
+  uid: c18056c7-480d-4392-bfd5-a3abd080a149
+  resourceVersion: '941588245'
+  creationTimestamp: '2023-08-31T19:29:04Z'
+  annotations:
+    service.beta.openshift.io/inject-cabundle: 'true'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: v1
+      time: '2023-09-22T21:27:35Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:service.beta.openshift.io/inject-cabundle': {}
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":5000,"protocol":"TCP"}':
+              .: {}
+              'f:name': {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 172.28.166.71
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: openmbee-mms
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 172.28.166.71
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    name: openmbee-mms
+status:
+  loadBalancer: {}
