@@ -1,0 +1,60 @@
+﻿kind: Service
+apiVersion: v1
+metadata:
+  name: minio
+  namespace: openmbee
+  uid: e4d03e2f-2851-43ce-9830-d749e740d3c6
+  resourceVersion: '911719467'
+  creationTimestamp: '2023-08-31T19:29:46Z'
+  labels:
+    io.kompose.service: minio
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.30.0 (HEAD)
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: v1
+      time: '2023-08-31T19:29:46Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:kompose.cmd': {}
+            'f:kompose.version': {}
+          'f:labels':
+            .: {}
+            'f:io.kompose.service': {}
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":9000,"protocol":"TCP"}':
+              .: {}
+              'f:name': {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 'CLUSTER IP ADDRESS'
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: '9000'
+      protocol: TCP
+      port: 9000
+      targetPort: 9000
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 'CLUSTER IP ADDRESS'
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    io.kompose.service: minio
+status:
+  loadBalancer: {}

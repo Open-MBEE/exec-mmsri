@@ -1,0 +1,237 @@
+﻿kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: openmbee-mms
+  namespace: openmbee
+  uid: 56b1f21a-7213-4510-b5f1-2c75acdec56d
+  resourceVersion: '949351001'
+  generation: 79
+  creationTimestamp: '2023-08-31T19:10:00Z'
+  annotations:
+    description: Handles deployment of the openmbee mms web api and backend
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: apps.openshift.io/v1
+      time: '2023-09-26T05:22:20Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:description': {}
+        'f:spec':
+          'f:replicas': {}
+          'f:selector':
+            .: {}
+            'f:name': {}
+          'f:strategy':
+            'f:activeDeadlineSeconds': {}
+            'f:recreateParams':
+              .: {}
+              'f:timeoutSeconds': {}
+            'f:resources':
+              'f:limits':
+                .: {}
+                'f:cpu': {}
+                'f:memory': {}
+              'f:requests':
+                .: {}
+                'f:cpu': {}
+                'f:memory': {}
+            'f:rollingParams':
+              .: {}
+              'f:intervalSeconds': {}
+              'f:maxSurge': {}
+              'f:maxUnavailable': {}
+              'f:timeoutSeconds': {}
+              'f:updatePeriodSeconds': {}
+            'f:type': {}
+          'f:template':
+            .: {}
+            'f:metadata':
+              .: {}
+              'f:creationTimestamp': {}
+              'f:labels':
+                .: {}
+                'f:name': {}
+            'f:spec':
+              'f:volumes':
+                .: {}
+                'k:{"name":"tls-secret"}':
+                  .: {}
+                  'f:name': {}
+                  'f:secret':
+                    .: {}
+                    'f:defaultMode': {}
+                    'f:secretName': {}
+              'f:containers':
+                .: {}
+                'k:{"name":"openmbee-mms"}':
+                  'f:envFrom': {}
+                  'f:image': {}
+                  'f:volumeMounts':
+                    .: {}
+                    'k:{"mountPath":"/etc/secrets/mms"}':
+                      .: {}
+                      'f:mountPath': {}
+                      'f:name': {}
+                      'f:readOnly': {}
+                  'f:terminationMessagePolicy': {}
+                  .: {}
+                  'f:resources':
+                    .: {}
+                    'f:limits':
+                      .: {}
+                      'f:cpu': {}
+                      'f:memory': {}
+                    'f:requests':
+                      .: {}
+                      'f:cpu': {}
+                      'f:memory': {}
+                  'f:terminationMessagePath': {}
+                  'f:imagePullPolicy': {}
+                  'f:ports':
+                    .: {}
+                    'k:{"containerPort":5000,"protocol":"TCP"}':
+                      .: {}
+                      'f:containerPort': {}
+                      'f:protocol': {}
+                  'f:name': {}
+              'f:dnsPolicy': {}
+              'f:restartPolicy': {}
+              .: {}
+              'f:schedulerName': {}
+              'f:terminationGracePeriodSeconds': {}
+              'f:imagePullSecrets':
+                .: {}
+                'k:{"name":"nexus-repo-docker-registry"}': {}
+              'f:securityContext': {}
+          'f:triggers': {}
+    - manager: openshift-controller-manager
+      operation: Update
+      apiVersion: apps.openshift.io/v1
+      time: '2023-09-28T18:52:49Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:updatedReplicas': {}
+          'f:readyReplicas': {}
+          'f:conditions':
+            .: {}
+            'k:{"type":"Available"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Progressing"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+          'f:details':
+            'f:causes': {}
+            'f:message': {}
+          'f:replicas': {}
+          'f:availableReplicas': {}
+          'f:observedGeneration': {}
+          'f:unavailableReplicas': {}
+          'f:latestVersion': {}
+      subresource: status
+spec:
+  strategy:
+    type: Rolling
+    recreateParams:
+      timeoutSeconds: 600
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources:
+      limits:
+        cpu: 350m
+        memory: 500Mi
+      requests:
+        cpu: 350m
+        memory: 100Mi
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ConfigChange
+  replicas: 1
+  revisionHistoryLimit: 10
+  test: false
+  selector:
+    name: openmbee-mms
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: openmbee-mms
+    spec:
+      volumes:
+        - name: tls-secret
+          secret:
+            secretName: my-tls-secret
+            defaultMode: 420
+      containers:
+        - resources:
+            limits:
+              cpu: 750m
+              memory: 1G
+            requests:
+              cpu: 350m
+              memory: 500M
+          terminationMessagePath: /dev/termination-log
+          name: openmbee-mms
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: tls-secret
+              readOnly: true
+              mountPath: /etc/secrets/mms
+          terminationMessagePolicy: File
+          envFrom:
+            - secretRef:
+                name: nexus-repo-docker-registry
+          image: >-
+            registry-cli-docker.wseasttest.navair.navy.mil:5000/openmbee/openmbee-mms:latest
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      imagePullSecrets:
+        - name: nexus-repo-docker-registry
+      schedulerName: default-scheduler
+status:
+  observedGeneration: 79
+  details:
+    message: manual change
+    causes:
+      - type: Manual
+  availableReplicas: 1
+  unavailableReplicas: 0
+  latestVersion: 61
+  updatedReplicas: 1
+  conditions:
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2023-09-28T18:30:30Z'
+      lastTransitionTime: '2023-09-28T18:30:25Z'
+      reason: NewReplicationControllerAvailable
+      message: replication controller "openmbee-mms-61" successfully rolled out
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2023-09-28T18:52:49Z'
+      lastTransitionTime: '2023-09-28T18:52:49Z'
+      message: Deployment config has minimum availability.
+  replicas: 1
+  readyReplicas: 1

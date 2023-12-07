@@ -1,0 +1,53 @@
+﻿kind: Service
+apiVersion: v1
+metadata:
+  name: postgres
+  namespace: openmbee
+  uid: 28877079-55a8-4557-bf29-d769c005136f
+  resourceVersion: '930093890'
+  creationTimestamp: '2023-08-31T19:32:40Z'
+  annotations:
+    template.openshift.io/expose-uri: 'postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgres")].port}'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: v1
+      time: '2023-09-14T17:39:05Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:template.openshift.io/expose-uri': {}
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":5432,"protocol":"TCP"}':
+              .: {}
+              'f:name': {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 'CLUSTER IP ADDRESS'
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 'CLUSTER IP ADDRESS'
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    name: postgres
+status:
+  loadBalancer: {}
