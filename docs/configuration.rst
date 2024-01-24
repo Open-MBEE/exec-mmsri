@@ -16,7 +16,7 @@ Configuration Options
   mms.stream.batch.size
     The limit to use when processing stream data.
 
-    | `Default: 100000`
+    | `Default: 5000`
 
   rdb.project.prefix
     The prefix to use for project database creation.
@@ -124,10 +124,12 @@ LDAP Configuration
   ldap.user.dn.pattern
     The dn pattern for the user. Can accept multiple patterns for separate branches, delimited by ';'. Required.
 
+    | `Default: uid={0}`
+
   ldap.user.attributes.username
     The attribute to use for the username. Optional.
 
-    | `Default: uid={0}`
+    | `Default: uid`
 
   ldap.user.attributes.email
     The attribute to use for the email address. Optional.
@@ -154,6 +156,9 @@ Storage Configuration
 ---------------------
 
 If aws s3 environment is used and s3.access_key and s3.secret_key are not defined, credentials will be taken according to the `aws default credential provider chain <https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html>`_.
+
+  s3.endpoint
+    Endpoint of S3 compliant storage service
 
   s3.access_key
     This is the access key for the S3 bucket. Required (Optional if using AWS).
