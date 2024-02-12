@@ -194,7 +194,7 @@ spec:
               mountPath: /var/opt/postgres
           terminationMessagePolicy: File
           image: >-
-            registry-cli-docker.wseasttest.navair.navy.mil:5000/emergingtech/postgresql-10-rhel7:1
+            URIHERE/emergingtech/postgresql-10-rhel7:1
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst

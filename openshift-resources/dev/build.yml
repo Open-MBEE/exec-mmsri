@@ -14,7 +14,7 @@ spec:
     type: "Git"
     git:
       ref: "master"
-      uri: "ssh://alm-internal.navair.navy.mil/tfs/72_ALM/Sys_Dev/_git/openmbee-mms"
+      uri: ""
     contextDir: "openmbee"
     sourceSecret:
       name: "tfs-pull-secret"
@@ -49,7 +49,7 @@ spec:
   output:
     to:
       kind: "DockerImage"
-      name: "registry-cli-docker.wseasttest.navair.navy.mil:5000/722sysdev/openmbee-mms:latest"
+      name: ""
     pushSecret:
       name: "nexus-repo-docker-registry"
   postCommit:

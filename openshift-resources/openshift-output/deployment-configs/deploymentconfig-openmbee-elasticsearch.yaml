@@ -180,7 +180,7 @@ spec:
       containers:
         - name: openmbee-elasticsearch
           image: >-
-            registry-cli-docker.wseasttest.navair.navy.mil:5000/openmbee/openmbee-elasticsearch:latest
+            URIHERE/openmbee/openmbee-elasticsearch:latest
           ports:
             - containerPort: 9200
               protocol: TCP

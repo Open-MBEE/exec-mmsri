@@ -8,7 +8,7 @@ spec:
   source:
     git:
       ref: "master"
-      uri: "ssh://alm-internal.navair.navy.mil/tfs/72_ALM/Sys_Dev/_git/openmbee-mms"
+      uri: ""
     contextDir: "openmbee"
     sourceSecret:
       name: "tfs-pull-secret"

@@ -1,4 +1,4 @@
-FROM registry-cli-docker.wseasttest.navair.navy.mil:5001/buildpack-deps:bullseye  AS config
+FROM URIHERE/buildpack-deps:bullseye  AS config
 
 ARG NEXUS_USERNAME
 ARG NEXUS_PASSWORD
@@ -11,8 +11,8 @@ RUN echo -e "${BLUE_TEXT}}First Stage Build${RESET_TEXT}"
 
 # Download certificates using wget
 RUN echo -e "${YELLOW_TEXT}Downloading certificates from <url> using wget${RESET_TEXT}"
-RUN wget --no-check-certificate -r -np -nd -R "index.html*" https://wcf-serve.apps.arena-workspace.navair.navy.mil/wcf/latest/crt/ -P /usr/local/share/ca-certificates/WCF
-RUN wget --no-check-certificate -r -np -nd -R "index.html*" https://wcf-serve.apps.arena-workspace.navair.navy.mil/dod/latest/ -P /usr/local/share/ca-certificates/WCF
+RUN wget --no-check-certificate -r -np -nd -R "index.html*" URIHERE/wcf/latest/crt/ -P /usr/local/share/ca-certificates/WCF
+RUN wget --no-check-certificate -r -np -nd -R "index.html*" URIHERE/dod/latest/ -P /usr/local/share/ca-certificates/WCF
 
 # Update ca-certificates
 RUN echo -e "${YELLOW_TEXT}Updating ca-certificates${RESET_TEXT}"
@@ -20,18 +20,18 @@ RUN update-ca-certificates
 
 # Grabs MAVEN proxy
 RUN mkdir -p /root/.m2
-RUN wget --no-check-certificate -O /root/.m2/settings.xml https://wcf-serve.apps.arena-workspace.navair.navy.mil/config/maven/settings.xml
+RUN wget --no-check-certificate -O /root/.m2/settings.xml URIHERE/config/maven/settings.xml
 RUN echo -e "${YELLOW_TEXT}Updating Maven settings.xml with NEXUS credentials${RESET_TEXT}"
 RUN sed -i.bak "s/<username>nexus_username<\/username>/<username>$NEXUS_USERNAME<\/username>/g" /root/.m2/settings.xml
 RUN sed -i.bak "s/<password>nexus_password<\/password>/<password>$NEXUS_PASSWORD<\/password>/g" /root/.m2/settings.xml
 
 # Grabs alpine proxy
-RUN wget --no-check-certificate -O /usr/local/share/repositories https://wcf-serve.apps.arena-workspace.navair.navy.mil/config/alpine/alpine_16-sources.list
+RUN wget --no-check-certificate -O /usr/local/share/repositories URIHERE/config/alpine/alpine_16-sources.list
 RUN sed -i "s/<username>/$NEXUS_USERNAME/g" /usr/local/share/repositories
 RUN sed -i "s/<password>/$NEXUS_PASSWORD/g" /usr/local/share/repositories
 
 # Use a base image that includes the necessary tools (e.g., curl, unzip)
-FROM registry-cli-docker.wseasttest.navair.navy.mil:5001/amazoncorretto:17-alpine-jdk AS build
+FROM URIHERE/amazoncorretto:17-alpine-jdk AS build
 
 ENV YELLOW_TEXT='\033[33m'
 ENV BLUE_TEXT='\033[34m'
@@ -94,7 +94,7 @@ RUN ls -lah
 # NOT NEEDED UNLESS WE USE MAVEN
 # RUN mvn clean package
 
-FROM registry-cli-docker.wseasttest.navair.navy.mil:5001/amazoncorretto:17-alpine-jdk as app_runner
+FROM URIHERE/amazoncorretto:17-alpine-jdk as app_runner
 
 ENV YELLOW_TEXT='\033[33m'
 ENV BLUE_TEXT='\033[34m'

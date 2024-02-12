@@ -81,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
                 .maxAge(3600L)
                 .allowedOriginPatterns(allowedOrigins.split(","));
 //        registry.addMapping("/**")
-//            .allowedOrigins("https://openmbee-mms.apps.arena-workspace.navair.navy.mil") // Point this to your frontend's domain
+//            .allowedOrigins("") // Point this to your frontend's domain
 //            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 //            .allowedHeaders("Authorization", "Content-Type", "Cache-Control")
 //            .allowCredentials(true);
@@ -188,8 +188,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements
 ////        for(String origin: allowedOrigins.split(",")) {
 ////            config.addAllowedOrigin(origin);
 ////        }
-//        config.addAllowedOrigin("openmbee.apps.arena-workspace.navair.navy.mil");
-//        config.addAllowedOrigin("openmbee-mms.apps.arena-workspace.navair.navy.mil");
+//        config.addAllowedOrigin("");
+//        config.addAllowedOrigin("");
 //        config.addAllowedHeader(ORIGIN);
 //        config.addAllowedHeader(CONTENT_TYPE);
 //        config.addAllowedHeader(ACCEPT);
