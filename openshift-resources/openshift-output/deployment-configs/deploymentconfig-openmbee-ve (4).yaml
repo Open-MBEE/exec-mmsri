@@ -148,7 +148,7 @@ spec:
       containers:
         - name: openmbee-ve
           image: >-
-            registry-cli-docker.wseasttest.navair.navy.mil:5000/openmbee/openmbee-ve:VE-VERSION-4.0.2
+            
           ports:
             - containerPort: 8080
               protocol: TCP

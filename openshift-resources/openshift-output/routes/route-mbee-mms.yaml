@@ -36,7 +36,7 @@ metadata:
           'f:ingress': {}
       subresource: status
 spec:
-  host: mbee-mms.navair.navy.mil
+  host: 
   to:
     kind: Service
     name: openmbee-mms
@@ -48,11 +48,11 @@ spec:
   wildcardPolicy: None
 status:
   ingress:
-    - host: mbee-mms.navair.navy.mil
+    - host: 
       routerName: default
       conditions:
         - type: Admitted
           status: 'True'
           lastTransitionTime: '2023-09-25T20:50:46Z'
       wildcardPolicy: None
-      routerCanonicalHostname: router-default.apps.arena-workspace.navair.navy.mil
+      routerCanonicalHostname: 

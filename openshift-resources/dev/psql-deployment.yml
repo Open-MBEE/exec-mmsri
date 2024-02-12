@@ -25,7 +25,7 @@ spec:
                 secretKeyRef:
                   key: database-password
                   name: "postgres"
-          image: "registry-cli-docker.wseasttest.navair.navy.mil:5000/emergingtech/postgres:11-alpine"
+          image: ""
           imagePullPolicy: Always
           name: postgres
           ports:

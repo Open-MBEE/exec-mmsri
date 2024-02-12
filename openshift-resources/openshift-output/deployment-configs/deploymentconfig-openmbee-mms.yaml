@@ -203,7 +203,7 @@ spec:
             - secretRef:
                 name: nexus-repo-docker-registry
           image: >-
-            registry-cli-docker.wseasttest.navair.navy.mil:5000/openmbee/openmbee-mms:latest
+            
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
