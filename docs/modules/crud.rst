@@ -1,1 +1,0 @@
-.. include:: ../../crud/README.rst

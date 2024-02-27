@@ -1,1 +1,0 @@
-.. include:: ../../elastic/README.rst

@@ -1,1 +1,0 @@
-.. include:: ../../webhooks/README.rst

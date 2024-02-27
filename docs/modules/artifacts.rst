@@ -1,1 +1,0 @@
-.. include:: ../../artifacts/README.rst

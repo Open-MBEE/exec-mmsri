@@ -1,1 +1,0 @@
-.. include:: ../../permissions/README.rst

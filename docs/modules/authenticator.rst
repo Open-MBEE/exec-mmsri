@@ -1,1 +1,0 @@
-.. include:: ../../authenticator/README.rst

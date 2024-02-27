@@ -1,1 +1,0 @@
-.. include:: ../../json/README.rst

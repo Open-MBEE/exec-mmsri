@@ -1,1 +1,0 @@
-.. include:: ../../groups/README.rst
