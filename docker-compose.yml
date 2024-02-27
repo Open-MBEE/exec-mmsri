@@ -19,18 +19,21 @@ services:
       - 9300:9300
 
   minio:
-    image: minio/minio:latest
+    # image: minio/minio:latest
+    image:  minio/minio:RELEASE.2022-05-26T05-48-41Z.hotfix.15f13935a
     environment:
+      # - "MINIO_ROOT_USER=admintest"
+      # - "MINIO_ROOT_PASSWORD=admintest"
       - "MINIO_ACCESS_KEY=admintest"
       - "MINIO_SECRET_KEY=admintest"
     command: server /tmp/data
     ports:
       - 9000:9000
 
-  mms:
+  openmbee-mms:
     build: .
-    container_name: mms
-    hostname: mms
+    container_name: openmbee-mms
+    hostname: openmbee-mms
     environment:
       - "SPRING_PROFILES_ACTIVE=test"
     depends_on:
@@ -39,3 +42,47 @@ services:
       - minio
     ports:
       - 8080:8080
+
+
+# DOCKER_COMPOSE FROM DEVELOP BRANCH
+# version: '3.8'
+
+# services:
+#   postgres:
+#     image: postgres:11-alpine
+#     environment:
+#         - POSTGRES_PASSWORD=test1234
+#         - POSTGRES_USER=mmsuser
+#         - POSTGRES_DB=mms
+#     ports:
+#       - 5432:5432
+
+#   elasticsearch:
+#     image: docker.elastic.co/elasticsearch/elasticsearch:7.8.1
+#     environment:
+#       - "discovery.type=single-node"
+#     ports:
+#         - 9200:9200
+#         - 9300:9300
+
+#   minio:
+#       image: minio/minio:RELEASE.2022-05-26T05-48-41Z.hotfix.15f13935a
+#       environment:
+#           - "MINIO_ACCESS_KEY=admintest"
+#           - "MINIO_SECRET_KEY=admintest"
+#       command: server /tmp/data
+#       ports:
+#           - 9000:9000
+
+#   mms:
+#     build: .
+#     container_name: mms
+#     hostname: mms
+#     environment:
+#         - "SPRING_PROFILES_ACTIVE=test"
+#     depends_on:
+#         - postgres
+#         - elasticsearch
+#         - minio
+#     ports: 
+#         - 8080:8080
