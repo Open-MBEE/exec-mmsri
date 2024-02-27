@@ -1,0 +1,58 @@
+﻿kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: mbee-mms
+  namespace: openmbee
+  uid: 9259ea63-f943-41a4-afbd-e4404aec2908
+  resourceVersion: '945743751'
+  creationTimestamp: '2023-09-25T20:49:37Z'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2023-09-25T20:49:37Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:host': {}
+          'f:port':
+            .: {}
+            'f:targetPort': {}
+          'f:tls':
+            .: {}
+            'f:termination': {}
+          'f:to':
+            'f:kind': {}
+            'f:name': {}
+            'f:weight': {}
+          'f:wildcardPolicy': {}
+    - manager: openshift-router
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2023-09-25T20:49:37Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:ingress': {}
+      subresource: status
+spec:
+  host: 
+  to:
+    kind: Service
+    name: openmbee-mms
+    weight: 100
+  port:
+    targetPort: openmbee-mms
+  tls:
+    termination: edge
+  wildcardPolicy: None
+status:
+  ingress:
+    - host: 
+      routerName: default
+      conditions:
+        - type: Admitted
+          status: 'True'
+          lastTransitionTime: '2023-09-25T20:50:46Z'
+      wildcardPolicy: None
+      routerCanonicalHostname: 

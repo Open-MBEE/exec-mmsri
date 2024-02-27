@@ -1,0 +1,57 @@
+﻿kind: Service
+apiVersion: v1
+metadata:
+  name: openmbee-elasticsearch
+  namespace: openmbee
+  uid: b4580c99-e15d-41ce-9b48-7733e0cbf247
+  resourceVersion: '946676276'
+  creationTimestamp: '2023-09-18T17:02:46Z'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: v1
+      time: '2023-09-18T17:02:46Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":9200,"protocol":"TCP"}':
+              .: {}
+              'f:name': {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+            'k:{"port":9300,"protocol":"TCP"}':
+              .: {}
+              'f:name': {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 'CLUSTER IP ADDRESS'
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: '9200'
+      protocol: TCP
+      port: 9200
+      targetPort: 9200
+    - name: '9300'
+      protocol: TCP
+      port: 9300
+      targetPort: 9300
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 'CLUSTER IP ADDRESS'
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    io.kompose.service: elasticsearch
+status:
+  loadBalancer: {}

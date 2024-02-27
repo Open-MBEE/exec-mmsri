@@ -1,9 +1,11 @@
 .gradle
 **/build/
-application.properties
+!gradle/wrapper/gradle-wrapper.jar
+#application.properties
 localhost-env.json
 .vscode
-
+*.pem
+src/main/resources/*.pem
 ### STS ###
 .apt_generated
 .classpath
@@ -27,8 +29,12 @@ localhost-env.json
 /nbdist/
 /.nb-gradle/
 
+### Sphinx ###
+_build
+
 
 **/bin
-**/_build
-*.ks
-*.jks
+
+**/.DS_Store
+/old_build/
+/generate_toc.sh
