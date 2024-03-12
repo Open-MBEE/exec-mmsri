@@ -49,7 +49,7 @@ Running MMS
     First, create a container from an MMS image. In the example below, the container is using the host network for simplicity.
     ::
 
-      docker create --name=mms --network="host" -e "SPRING_CONFIG_LOCATION=/mms.properties" openmbee/mms:4.0.18
+      docker create --name=mms --network="host" -e "SPRING_CONFIG_LOCATION=/mms.properties" openmbee/mms:4.0.20
 
   Copy properties
     If using the above command, copy the properties file to the defined spring config location.
