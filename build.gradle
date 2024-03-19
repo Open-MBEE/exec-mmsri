@@ -46,31 +46,13 @@ dependencies {
             "org.postgresql:postgresql:42.2.27",
             "org.zalando:logbook-spring-boot-starter:2.2.1",
             "ch.qos.logback:logback-classic:1.2.11",
-//            below was commented out due to changes to spring 2.6.7 > 2.7.x upgrade
-            //change the opanapi version from 1.5.4 to 1.6.9
             'org.springdoc:springdoc-openapi-ui:1.6.9',
             "org.springdoc:springdoc-openapi-webmvc-core:1.6.9",
             "org.springdoc:springdoc-openapi-security:1.6.9",
             //resolve https://nvd.nist.gov/vuln/detail/CVE-2022-1471
             "org.yaml:snakeyaml:2.0",
-            //https://nvd.nist.gov/vuln/detail/CVE-2022-46364
-            "org.apache.cxf:cxf-core:3.5.5",
-//        RESOLVE HIGH VULNERABILITIES
-        "org.apache.tomcat.embed:tomcat-embed-core:9.0.75",
-        "org.springframework.boot:spring-boot-autoconfigure:2.7.12",
-        "org.jsoup:jsoup:1.15.3",
-        "org.bouncycastle:bcprov-jdk15on:1.67",
-        "org.apache.lucene:lucene-core:8.10.0",
-        "org.apache.commons:commons-compress:1.21",
-        "com.amazonaws:aws-java-sdk-s3:1.12.261",
-        "com.github.junrar:junrar:7.4.1",
-        // https://mvnrepository.com/artifact/com.google.guava/guava
-        "com.google.guava:guava:32.0.1-jre",
-        "com.google.protobuf:protobuf-java:3.16.3",
-
-
-
-
+            "org.apache.lucene:lucene-core:8.10.0",
+            "com.fasterxml.jackson.core:jackson-core:2.15.0",
     )
     testImplementation(
             'org.springframework.boot:spring-boot-starter-test'
